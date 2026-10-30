@@ -20,6 +20,6 @@ public class MainMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("Test_1");
+        SceneManager.LoadScene("Level1");
     }
 }

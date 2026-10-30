@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 public class StoneFromPull : MonoBehaviour
 {
     IObjectPool<GameObject> _pool;
-    float LifeTime = 1.0f;
+    [SerializeField] float LifeTime = 5.0f;
     public void SetPull(ObjectPool<GameObject> pool)
     {
         _pool = pool;
