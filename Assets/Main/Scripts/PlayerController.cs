@@ -7,7 +7,7 @@ namespace Main.Scripts
     public class PlayerController :  MonoBehaviour
     {
         
-        Health m_health = new Health(100.0f);
+        Health m_health;
         public event Action OnDeath;
         private const int Mass = 20;
         [SerializeField]
@@ -38,6 +38,7 @@ namespace Main.Scripts
             input = GetComponent<PlayerInput>();
             controller = GetComponent<CharacterController>();
             m_animator = GetComponent<Animator>();
+            m_health = GetComponent<Health>();
             m_health.OnDeath += OnDead;
         }
 

@@ -1,3 +1,4 @@
+using Main.Interfaces;
 using UnityEngine;
 
 namespace Main.Scripts
@@ -8,22 +9,12 @@ namespace Main.Scripts
         public float damage;
         private void OnCollisionEnter(Collision collision)
         {
-            Health enemyHealth = collision.gameObject.GetComponent<Health>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.GetDamage(damage);
-                Debug.Log($"Нанесенный урон: {damage}\nговорящий файл: Main/Weapone");
-            }
+            collision.gameObject.GetComponentInParent<Health>()?.GetDamage(damage);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            Health enemyHealth = other.gameObject.GetComponent<Health>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.GetDamage(damage);
-                Debug.Log($"Нанесенный урон: {damage}\nговорящий файл: Main/Weapone");
-            }
+            other.gameObject.GetComponentInParent<Health>()?.GetDamage(damage);
         }
     }
 }

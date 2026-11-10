@@ -1,9 +1,10 @@
 using System;
+using Main.Interfaces;
 using UnityEngine;
 
 namespace Main.Scripts
 {
-    public class Health
+    public class Health : MonoBehaviour
     {
         public event Action OnDeath;
         public float health;
@@ -22,7 +23,7 @@ namespace Main.Scripts
             {
                 health = 0.0f;
                 m_isAlive = false;
-                animator.SetTrigger("Die");
+                animator.SetBool("isAlive", m_isAlive);
                 OnDeath?.Invoke();
             }
             else

@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &497861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 497863}
+  - component: {fileID: 497862}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &497862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e1aa47e95d47f683ca83b78e15575d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.States.GameManager
+  m_playerController: {fileID: 1473688137}
+--- !u!4 &497863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &58792796
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +723,11 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 7884340084423655815, guid: 2f8acd1868d6a4948989ee16b1092dd3, type: 3}
   m_PrefabInstance: {fileID: 420985693}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &437513395 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1981866887976916081, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+  m_PrefabInstance: {fileID: 1487513826}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &545813178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1097,6 +1147,47 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1473688131 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5157211476466648329, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+  m_PrefabInstance: {fileID: 1487513826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1473688136 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1889793287922992585, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+  m_PrefabInstance: {fileID: 1487513826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1473688137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473688131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74d8d7569085d045975f0fbbb4bc25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.PlayerController
+  cam: {fileID: 139056193}
+  baseSpeed: 7
+  cameraPivot: {fileID: 437513395}
+  jumpForce: 15
+  speed: 15
+--- !u!114 &1473688138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473688131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e422f72cf253a94db03f249bf485137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.Health
+  health: 100
+  animator: {fileID: 1473688136}
 --- !u!1001 &1487513826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1164,7 +1255,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5157211476466648329, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1473688137}
+    - targetCorrespondingSourceObject: {fileID: 5157211476466648329, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1473688138}
   m_SourcePrefab: {fileID: 100100000, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
 --- !u!1 &1775242532
 GameObject:
@@ -1621,3 +1718,4 @@ SceneRoots:
   - {fileID: 420985693}
   - {fileID: 1951571986}
   - {fileID: 2132745393}
+  - {fileID: 497863}

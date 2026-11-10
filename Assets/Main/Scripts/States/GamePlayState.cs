@@ -5,23 +5,21 @@ namespace Main.Scripts.States
 {
     public class GamePlayState : IGameState,  IUpdateable
     {
-        private StateMachine  m_stateMachine;
-        private PlayerController  m_playerController;
+        private StateMachine m_stateMachine;
+        private PlayerController m_playerController;
         public GamePlayState(
-            StateMachine stateMachine
+            StateMachine stateMachine,
+            PlayerController playerController
             )
         {
             m_stateMachine =  stateMachine;
+            m_playerController = playerController;
         }
 
         public void OnEnter()
         {
-            // Как сделать лучше?
-            m_playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-            //
             m_playerController.OnDeath += GameOver;
             m_playerController.SetInputEnabled(true);
-            
         }
         
         public void OnExit()
@@ -43,6 +41,7 @@ namespace Main.Scripts.States
         private void GameOver()
         {
             m_stateMachine.ChangeState<GameOverState>();
+            Debug.Log($"Game Over ");
         }
     }
 }
