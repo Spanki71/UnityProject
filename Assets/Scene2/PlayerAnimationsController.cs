@@ -11,6 +11,6 @@ public class PlayerAnimationsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
