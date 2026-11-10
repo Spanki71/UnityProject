@@ -12,12 +12,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4459757b-4e7f-489f-900e-69ab47f438a5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Player.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Player.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/PlayerAnimatorController.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/PlayerAnimatorController.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Main/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Main/Scene2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Scene2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Weapones/Human_Polearm.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Weapones/Human_Polearm.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RPGPP_LT/Materials/rpgpp_lt_mat_a.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RPGPP_LT/Materials/rpgpp_lt_mat_a.mat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
