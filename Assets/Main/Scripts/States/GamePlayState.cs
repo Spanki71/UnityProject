@@ -20,12 +20,14 @@ namespace Main.Scripts.States
             m_playerController = GameObject.Find("Player").GetComponent<PlayerController>();
             //
             m_playerController.OnDeath += GameOver;
+            m_playerController.SetInputEnabled(true);
             
         }
         
         public void OnExit()
         {
             m_playerController.OnDeath -= GameOver;
+            m_playerController.SetInputEnabled(false);
         }
         
         public void Update()

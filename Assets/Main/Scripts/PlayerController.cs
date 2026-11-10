@@ -111,5 +111,17 @@ namespace Main.Scripts
         {
             OnDeath?.Invoke();
         }
+
+        public void SetInputEnabled(bool value)
+        {
+            if (value)
+            {
+                input.ActivateInput();
+            }
+            else
+            {
+                input.DeactivateInput();
+            }
+        }
     }
 }

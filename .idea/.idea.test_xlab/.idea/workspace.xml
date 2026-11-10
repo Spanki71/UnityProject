@@ -12,10 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0c1dce97-90e9-4cb2-ad0d-41831ec6a954" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.test_xlab/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.test_xlab/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Scripts/Health.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Scripts/Health.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Main/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Scripts/States/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Scripts/States/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Main/Scripts/States/GamePlayState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Main/Scripts/States/GamePlayState.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
