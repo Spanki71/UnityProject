@@ -145,3 +145,7 @@ x86/
 
 # Publish Web Output
 *.[Pp]ublish.xml
+
+.vsconfig
+test_xlab.slnx
+.idea
