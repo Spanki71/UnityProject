@@ -147,5 +147,5 @@ x86/
 *.[Pp]ublish.xml
 
 .vsconfig
-test_xlab.slnx
-.idea
+*.slnx
+.idea/
