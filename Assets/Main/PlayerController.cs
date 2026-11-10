@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private const int Mass = 20;
     [SerializeField]
     public Camera cam;
     [SerializeField]
@@ -31,6 +32,11 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
         m_animator = GetComponent<Animator>();
+    }
+
+    public void OnAttack()
+    {
+        m_animator.SetTrigger("Attack");
     }
 
     public void OnMove(InputValue value)
@@ -64,7 +70,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        verticalForce -= 9.81f *  Time.deltaTime;
+        verticalForce -= 9.81f * Mass *  Time.deltaTime;
         if (controller.isGrounded && verticalForce < 0.0f)
         {
             verticalForce = -2.0f;
