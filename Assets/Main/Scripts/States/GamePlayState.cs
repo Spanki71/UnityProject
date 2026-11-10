@@ -1,4 +1,5 @@
 using Main.Interfaces;
+using UnityEngine;
 
 namespace Main.Scripts.States
 {
@@ -7,24 +8,24 @@ namespace Main.Scripts.States
         private StateMachine  m_stateMachine;
         private PlayerController  m_playerController;
         public GamePlayState(
-            StateMachine stateMachine,
-            PlayerController playerController
+            StateMachine stateMachine
             )
         {
             m_stateMachine =  stateMachine;
-            m_playerController =  playerController;
         }
 
         public void OnEnter()
         {
-            m_playerController.smt += PlayerLogic;
-            m_playerController.OnDie += GameOver;
+            // Как сделать лучше?
+            m_playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+            //
+            m_playerController.OnDeath += GameOver;
+            
         }
         
         public void OnExit()
         {
-            m_playerController.smt -= PlayerLogic;
-            m_playerController.OnDie -= GameOver;
+            m_playerController.OnDeath -= GameOver;
         }
         
         public void Update()

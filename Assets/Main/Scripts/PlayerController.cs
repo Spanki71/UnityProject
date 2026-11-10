@@ -4,10 +4,11 @@ using UnityEngine.InputSystem;
 
 namespace Main.Scripts
 {
-    public class PlayerController
+    public class PlayerController :  MonoBehaviour
     {
-        public event Action smt;
-        public event Action OnDie;
+        
+        Health m_health = new Health(100.0f);
+        public event Action OnDeath;
         private const int Mass = 20;
         [SerializeField]
         public Camera cam;
@@ -30,11 +31,14 @@ namespace Main.Scripts
 
 
         private float pitch = 0;
+        
+
         private void Awake()
         {
-            //input = GetComponent<PlayerInput>();
-            //controller = GetComponent<CharacterController>();
-            //m_animator = GetComponent<Animator>();
+            input = GetComponent<PlayerInput>();
+            controller = GetComponent<CharacterController>();
+            m_animator = GetComponent<Animator>();
+            m_health.OnDeath += OnDead;
         }
 
         public void OnAttack()
@@ -60,18 +64,18 @@ namespace Main.Scripts
         public void OnLook(InputValue value)
         {
             m_lookInput = value.Get<Vector2>();
-            // !!! Важная логика в комментарии  !!!!
+
         
-            //gameObject.transform.Rotate(Vector3.up, m_lookInput.x);
+            gameObject.transform.Rotate(Vector3.up, m_lookInput.x);
         
             float newPitch = Mathf.Clamp(pitch + m_lookInput.y, -90f, 90f);
             float delta = pitch - newPitch;
             pitch = newPitch;
             cameraPivot.Rotate(Vector3.right, delta);
-            //cam.transform.RotateAround(cameraPivot.position, cam.transform.right, delta);
+            cam.transform.RotateAround(cameraPivot.position, cam.transform.right, delta);
         }
 
-        // Update is called once per frame
+
         void Update()
         {
             verticalForce -= 9.81f * Mass *  Time.deltaTime;
@@ -87,8 +91,6 @@ namespace Main.Scripts
         
             speed = controller.velocity.magnitude;
             m_animator.SetFloat("Speed", speed);
-        
-        
         }
 
         public Vector3 GetForward()
@@ -103,6 +105,11 @@ namespace Main.Scripts
             Vector3 right = cam.transform.right;
             right.y = 0;
             return right;
+        }
+
+        private void OnDead()
+        {
+            OnDeath?.Invoke();
         }
     }
 }
