@@ -115,13 +115,20 @@ namespace Main.Scripts
 
         public void SetInputEnabled(bool value)
         {
-            if (value)
+            try
             {
-                input.ActivateInput();
+                if (value)
+                {
+                    input.ActivateInput();
+                }
+                else
+                {
+                    input.DeactivateInput();
+                }
             }
-            else
+            catch (Exception e)
             {
-                input.DeactivateInput();
+                Debug.Log(e);
             }
         }
     }

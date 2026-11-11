@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Main.Scripts.States
 {
@@ -7,7 +7,6 @@ namespace Main.Scripts.States
     {
         [SerializeField]
         private PlayerController m_playerController;
-        private event Action smt;
         private IGameState m_currentState;
         private StateMachine m_stateMachine;
         
@@ -18,8 +17,15 @@ namespace Main.Scripts.States
             m_stateMachine.Register(new GamePlayState(m_stateMachine, m_playerController));
             m_stateMachine.Register(new GameOverState(m_stateMachine));
             
-            m_stateMachine.ChangeState<GamePlayState>();
             
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                m_stateMachine.ChangeState<MainMenuState>();
+            }
+            else
+            {
+                m_stateMachine.ChangeState<GamePlayState>();
+            }
         }
 
         private void Update()
