@@ -7,15 +7,20 @@ namespace Main.Scripts.States
     {
         [SerializeField]
         private PlayerController m_playerController;
+        
+        [SerializeField] private GameObject m_gameOverCanvas;
         private IGameState m_currentState;
         private StateMachine m_stateMachine;
+        
+        
         
         private void Awake()
         {
             m_stateMachine = new StateMachine();
+            
             m_stateMachine.Register(new MainMenuState(m_stateMachine));
             m_stateMachine.Register(new GamePlayState(m_stateMachine, m_playerController));
-            m_stateMachine.Register(new GameOverState(m_stateMachine));
+            m_stateMachine.Register(new GameOverState(m_stateMachine,m_gameOverCanvas));
             
             
             if (SceneManager.GetActiveScene().name == "MainMenu")
