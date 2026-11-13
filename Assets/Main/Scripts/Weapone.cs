@@ -20,9 +20,8 @@ namespace Main.Scripts
             else if (collision.gameObject.CompareTag("Stone"))
             {
                 Vector3 hitpoint = collision.contacts[0].point;
-                Vector3 dir = (hitpoint - collision.transform.position).normalized;
+                Vector3 dir = (collision.transform.position - hitpoint).normalized;
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(dir * damage, ForceMode.VelocityChange);
-                Debug.Log($"hitpoint {hitpoint} stone pos {collision.gameObject.transform.position}");
             }
         
 
