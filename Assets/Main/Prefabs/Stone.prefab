@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
+      propertyPath: m_TagString
+      value: Stone
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.18260536
@@ -95,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc7fc25aaa54fd4884e2c63ce118c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StouneFromPull
+  LifeTime: 5
 --- !u!54 &3358912000064917524
 Rigidbody:
   m_ObjectHideFlags: 0

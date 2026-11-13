@@ -18,6 +18,7 @@ namespace Main.Scripts
 
         public void GetDamage(float damage)
         {
+
             animator.SetTrigger("GetDamage");
             if (health <= damage)
             {
