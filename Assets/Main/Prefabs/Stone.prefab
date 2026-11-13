@@ -74,32 +74,19 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6484125347007617545}
-    - targetCorrespondingSourceObject: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3358912000064917524}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6044152106538696582}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780809971364126160}
   m_SourcePrefab: {fileID: 100100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
 --- !u!1 &874735063623825999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: d1fd41beb70267947bc1c996df07593d, type: 3}
   m_PrefabInstance: {fileID: 874735063623924975}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6484125347007617545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874735063623825999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dc7fc25aaa54fd4884e2c63ce118c3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StouneFromPull
-  LifeTime: 5
 --- !u!54 &3358912000064917524
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -122,7 +109,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -148,3 +135,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.181764
   m_Center: {x: 0.105138615, y: 0.25091586, z: 0.11738427}
+--- !u!114 &1780809971364126160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874735063623825999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b79ebad62724ae4382f749b4cc9ce3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoneBrain
+  spawner: {fileID: 0}

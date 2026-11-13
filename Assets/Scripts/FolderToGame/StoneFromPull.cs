@@ -23,14 +23,5 @@ public class StoneFromPull : MonoBehaviour
     {
         _pool.Release(gameObject);
     }
-	void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

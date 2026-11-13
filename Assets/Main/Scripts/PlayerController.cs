@@ -92,6 +92,7 @@ namespace Main.Scripts
         
             speed = controller.velocity.magnitude;
             m_animator.SetFloat("Speed", speed);
+            
         }
 
         public Vector3 GetForward()

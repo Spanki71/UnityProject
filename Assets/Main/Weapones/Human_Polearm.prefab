@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba8f3087e4cdae47a5d61cce2395642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapone
-  damage: 20
+  damage: 5
   Owner: {fileID: 0}
 --- !u!136 &4311259267297459091
 CapsuleCollider:

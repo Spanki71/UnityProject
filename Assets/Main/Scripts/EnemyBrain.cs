@@ -28,10 +28,5 @@ public class EnemyBrain : MonoBehaviour
         //rb.AddForce(dir * 300);
         rb.linearVelocity = (dir * speed);
     }
-
-    public void Update()
-    {
-        Debug.Log("Game Over Logic");
-        Debug.Log(rb.linearVelocity.magnitude.ToString());
-    }
+    
 }
