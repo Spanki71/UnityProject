@@ -1,5 +1,4 @@
 using System;
-using Main.Interfaces;
 using UnityEngine;
 
 namespace Main.Scripts

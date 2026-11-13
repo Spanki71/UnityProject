@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Main.Interfaces;
 
 namespace Main.Scripts.States
 {
@@ -35,14 +34,6 @@ namespace Main.Scripts.States
         public void PopState()
         {
             m_stateStack?.Pop();
-        }
-
-        public void Update()
-        {
-            if (m_currentState is IUpdateable updateable)
-            {
-                updateable.Update();
-            }
         }
     }
 }
