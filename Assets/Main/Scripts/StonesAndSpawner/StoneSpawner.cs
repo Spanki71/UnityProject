@@ -8,7 +8,7 @@ namespace Main.Scripts
         [SerializeField] GameObject Prefab;
         ObjectPool<GameObject> _pool;
         [SerializeField] float _wateTime = 3.0f;
-        private bool CanSpawnStone = true;
+        public bool CanSpawnStone = true;
         float _time;
         private void Awake()
         {
