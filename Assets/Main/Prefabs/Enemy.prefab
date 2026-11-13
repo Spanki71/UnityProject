@@ -62,13 +62,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3169763562718506243}
-    - targetCorrespondingSourceObject: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5232307336868442236}
     - targetCorrespondingSourceObject: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5595513922512560804}
+    - targetCorrespondingSourceObject: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3577614899508803838}
   m_SourcePrefab: {fileID: 100100000, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
 --- !u!95 &7884340084423655815 stripped
 Animator:
@@ -80,20 +80,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
   m_PrefabInstance: {fileID: 7884340084431058151}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3169763562718506243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7884340084431090685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e422f72cf253a94db03f249bf485137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  health: 100
-  animator: {fileID: 7884340084423655815}
 --- !u!54 &5232307336868442236
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,7 +105,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!136 &5595513922512560804
 CapsuleCollider:
@@ -144,3 +130,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3577614899508803838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7884340084431090685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab08b972c812f1b4a989c2a631a560ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  animator: {fileID: 7884340084423655815}
+  target: {fileID: 0}
+  rb: {fileID: 5232307336868442236}
+  speed: 5
