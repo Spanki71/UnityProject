@@ -28,6 +28,7 @@ namespace Main.Scripts.States
             
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(m_mainMenu);
+            DontDestroyOnLoad(m_gameOverCanvas);
         }
     }
 }

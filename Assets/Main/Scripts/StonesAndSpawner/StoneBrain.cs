@@ -5,8 +5,11 @@ using UnityEngine.Pool;
 
 public class StoneBrain : MonoBehaviour
 {
+    [SerializeField]
     public StoneSpawner spawner;
     private Rigidbody rb;
+    private IObjectPool<GameObject> _pool;
+    public bool canSpawnStone = false;
 
     private void Awake()
     {
@@ -15,34 +18,30 @@ public class StoneBrain : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        spawner.CanSpawnStone = true;
-        Debug.Log("Can Spawn Stone");
+        if (collision.gameObject.CompareTag("Weapone"))
+        {
+            canSpawnStone = true;
+            spawner.time = Time.time;
+        }
+        
+        
     }
-    
-    
-    IObjectPool<GameObject> _pool;
-    [SerializeField] float LifeTime = 30.0f;
+
     public void SetPull(ObjectPool<GameObject> pool)
     {
         _pool = pool;
     }
+    
     public void OnGet(Transform _transform)
     {
-        CancelInvoke("ReturnToPool");
+        rb.useGravity = false;
         transform.position = _transform.position;
-        Invoke("ReturnToPool", LifeTime);
     }
+    
     public void OnRelease()
     {
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
-        CancelInvoke("ReturnToPool");
     }
-    public void ReturnToPool()
-    {
-        _pool.Release(gameObject);
-    }
-    
-    
     
 }

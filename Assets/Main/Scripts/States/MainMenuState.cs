@@ -16,23 +16,33 @@ namespace Main.Scripts.States
 
         public void OnEnter()
         {
+            m_mainMenuCanvas.SetActive(true);
             m_mainMenu.OnQuitGame += MainMenuOnQuitGame;
             m_mainMenu.OnStartGame += MainMenuOnStartGame;
         }
 
         private void MainMenuOnStartGame()
         {
-            m_stateMachine.ChangeState<GamePlayState>();
+            m_mainMenuCanvas.SetActive(false);
+            if (m_mainMenuCanvas.activeInHierarchy)
+            {
+                MainMenuOnStartGame();
+                return;
+            }
+            else
+            {
+                m_stateMachine.ChangeState<GamePlayState>();
+            }
         }
 
         private void MainMenuOnQuitGame()
         {
-            Debug.Log("MainMenuOnQuitGame");
             Application.Quit();
         }
 
         public void OnExit()
         {
+            m_mainMenuCanvas.SetActive(false);
             m_mainMenu.OnQuitGame -= MainMenuOnQuitGame;
             m_mainMenu.OnStartGame -= MainMenuOnStartGame;
         }

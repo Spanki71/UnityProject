@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectsToSpawn
   transforms:
   - gameObject: {fileID: 5157211476466648329, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
-    position: {x: -10.77, y: 0, z: -0.7}
+    position: {x: -10.77, y: 1, z: -0.7}
     rotation: {x: 0, y: 0, z: 0, w: 0}
   - gameObject: {fileID: 7063186919127399241, guid: 2c50f632caf8da749bead92e0c18bb32, type: 3}
     position: {x: -5, y: 1.3, z: 5}
@@ -28,3 +28,9 @@ MonoBehaviour:
   - gameObject: {fileID: 7063186919127399241, guid: 2c50f632caf8da749bead92e0c18bb32, type: 3}
     position: {x: 5, y: 1.3, z: 5}
     rotation: {x: 0, y: 0, z: 0, w: 0}
+  - gameObject: {fileID: 3677642499752900182, guid: 01b40184a6f04284a81e7b098b8db5e7, type: 3}
+    position: {x: 0.29754, y: 0.25, z: -31.92264}
+    rotation: {x: 0, y: -0.06192826, z: 0, w: 0.9980806}
+  - gameObject: {fileID: 1953005943899540379, guid: 1cfc8f5ec6166fa40b66245ffc953c67, type: 3}
+    position: {x: 0.48, y: -0.012, z: 123.36}
+    rotation: {x: 0, y: 0, z: 0, w: 1}

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Stone
   - Spawner
+  - Weapone
+  - Enemy
+  - EnemySpawner
+  - Target
   layers:
   - Default
   - TransparentFX

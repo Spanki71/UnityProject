@@ -5,26 +5,33 @@ namespace Main.Scripts
 {
     public class StoneSpawner : MonoBehaviour
     {
-        [SerializeField] GameObject Prefab;
-        ObjectPool<GameObject> _pool;
-        [SerializeField] float _wateTime = 3.0f;
-        public bool CanSpawnStone = true;
-        float _time;
+        [SerializeField] float wateTime = 5.0f;
+        
+        public bool CanSpawnStone = false;
+        public float time;
+        
+        private GameObject Prefab;
+        private ObjectPool<GameObject> m_pool;
+        private GameObject m_activeStone;
+        private StoneBrain m_activeStoneBrain;
+
         private void Awake()
         {
-            _pool = new ObjectPool<GameObject>(
+            Prefab = transform.GetChild(0).gameObject;
+            m_pool = new ObjectPool<GameObject>(
                 createFunc: () => 
                 {
                     var obj = Instantiate(Prefab);
-                    obj.GetComponent<StoneBrain>().SetPull(_pool);
+                    obj.GetComponent<StoneBrain>().SetPull(m_pool);
                     obj.GetComponent<StoneBrain>().spawner = this;
                     return obj;
-
                 },
                 actionOnGet: (obj) => 
                 {
                     obj.SetActive(true);
-                    obj.GetComponent<StoneBrain>().OnGet(transform);
+                    m_activeStone = obj;
+                    m_activeStoneBrain = obj.GetComponent<StoneBrain>();
+                    m_activeStoneBrain.OnGet(transform);
                 },
                 actionOnRelease: (obj) =>
                 {
@@ -37,19 +44,20 @@ namespace Main.Scripts
                 maxSize: 50
             );
         }
+        
         void Start()
         {
-            _time = Time.time;
+            time = Time.time;
+            GameObject _polledStone = m_pool.Get();
         }
         
         void Update()
         {
         
-            if (Time.time - _time > _wateTime && CanSpawnStone)
+            if (m_activeStoneBrain.canSpawnStone && (Time.time - time > wateTime))
             {
-                GameObject _polledStone = _pool.Get();
-                _time = Time.time;
-                CanSpawnStone = false;
+                GameObject _polledStone = m_pool.Get();
+                CanSpawnStone =  false;
             }
         }
     }

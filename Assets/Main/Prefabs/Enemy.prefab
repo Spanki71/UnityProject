@@ -145,4 +145,4 @@ MonoBehaviour:
   animator: {fileID: 7884340084423655815}
   target: {fileID: 0}
   rb: {fileID: 5232307336868442236}
-  speed: 5
+  speed: 2

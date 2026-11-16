@@ -11,7 +11,6 @@ namespace Main.Scripts
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log(collision.gameObject.name);
             if (collision.gameObject == Owner)
             {
                 return;
@@ -20,13 +19,10 @@ namespace Main.Scripts
             {
                 Vector3 hitpoint = collision.contacts[0].point;
                 Vector3 dir = (collision.transform.position - hitpoint).normalized;
-                dir += Vector3.up * 0.05f;
+                dir += Vector3.up * 0.02f;
                 collision.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(dir * damage, ForceMode.Impulse);
             }
-        
-
-            collision.gameObject.GetComponentInParent<Health>()?.GetDamage(damage);
         }
     }
 }
