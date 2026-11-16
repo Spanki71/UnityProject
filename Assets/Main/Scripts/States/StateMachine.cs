@@ -5,6 +5,7 @@ namespace Main.Scripts.States
 {
     public class StateMachine
     {
+        public event Action OnLeaveGame;
         private IGameState m_currentState => m_stateStack?.Count > 0 ? m_stateStack.Peek() : null;
         private Stack<IGameState> m_stateStack = new();
         private readonly Dictionary<Type, IGameState> m_states = new Dictionary<Type, IGameState>();
@@ -34,6 +35,11 @@ namespace Main.Scripts.States
         public void PopState()
         {
             m_stateStack?.Pop();
+        }
+
+        public void Leave()
+        {
+            OnLeaveGame?.Invoke();
         }
     }
 }

@@ -8,17 +8,17 @@ public class EnemySpawner : MonoBehaviour
     public float wateTime = 20.0f;
     [SerializeField]
     private List<Transform> m_spawnPoints =  new List<Transform>(3);
+    [SerializeField]
+    private GameObject m_prefab;
 
     public GameObject target;
     
-    private GameObject m_prefab;
     private float m_time;
     private ObjectPool<GameObject> m_pool;
 
 
     private void Awake()
     {
-        m_prefab = transform.GetChild(0).gameObject;
         m_pool = new ObjectPool<GameObject>(
             createFunc: Spawn,
             actionOnGet: OnGet,
@@ -47,7 +47,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnRelease(GameObject obj)
     {
-        obj.GetComponent<EnemyBrain>().OnRelease();
+        obj.GetComponent<EnemyBrain>().ResetForPull();
         obj.SetActive(false);
     }
 

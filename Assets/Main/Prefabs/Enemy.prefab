@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 100122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400122, guid: 1ae73c895084f05408cd49ec3da3cd88, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.87659186
@@ -105,7 +109,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 64
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &5595513922512560804
 CapsuleCollider:
@@ -143,6 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   animator: {fileID: 7884340084423655815}
-  target: {fileID: 0}
   rb: {fileID: 5232307336868442236}
   speed: 2
+  spawner: {fileID: 0}

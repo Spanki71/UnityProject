@@ -6,8 +6,6 @@ namespace Main.Scripts
     public class StoneSpawner : MonoBehaviour
     {
         [SerializeField] float wateTime = 5.0f;
-        
-        public bool CanSpawnStone = false;
         public float time;
         
         private GameObject Prefab;
@@ -57,7 +55,6 @@ namespace Main.Scripts
             if (m_activeStoneBrain.canSpawnStone && (Time.time - time > wateTime))
             {
                 GameObject _polledStone = m_pool.Get();
-                CanSpawnStone =  false;
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Main.Scripts.States
 
         public void OnExit()
         {
+            
             m_canvas.SetActive(false);
             m_gameOverLogic.OnLeave -= Leave;
         }

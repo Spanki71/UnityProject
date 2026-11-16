@@ -46,6 +46,7 @@ namespace Main.Scripts.States
 
         private void GameOver()
         {
+            m_target.GetComponentInChildren<TargetBrain>().OnGameOver -= GameOver;
             m_stateMachine.ChangeState<GameOverState>();
         }
 
@@ -89,7 +90,7 @@ namespace Main.Scripts.States
             
             m_enemySpawner.GetComponent<EnemySpawner>().target = m_target;
             m_target.GetComponentInChildren<TargetBrain>().OnGameOver += GameOver;
-            
+            Debug.LogError("");
         }
     }
 }

@@ -41,7 +41,6 @@ namespace Main.Scripts
         private void Start()
         {
             input.enabled = true;
-            //input.ActivateInput();
         }
 
         public void OnAttack()

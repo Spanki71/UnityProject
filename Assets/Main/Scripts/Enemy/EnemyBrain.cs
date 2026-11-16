@@ -10,7 +10,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]
-    private float speed;
+    private float speed = 2.0f;
 
     public EnemySpawner spawner;
     private Transform target;
@@ -19,11 +19,20 @@ public class EnemyBrain : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Stone")
+        if (collision.gameObject.CompareTag("Stone"))
         {
-            animator.SetTrigger("Die");
-            speed = 0;
+            if (collision.impulse.magnitude > 1f)
+            {
+                animator.SetTrigger("Die");
+                speed = 0;
+                Invoke("GoPull", 2f);
+            }
         }
+
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            GoPull();
+        } 
     }
 
     private void FixedUpdate()
@@ -44,11 +53,17 @@ public class EnemyBrain : MonoBehaviour
         gameObject.SetActive(true);
         transform.position = transform.position;
     }
-    
-    public void OnRelease()
+
+    public void GoPull()
+    {
+        pool.Release(gameObject);
+    }
+
+    public void ResetForPull()
     {
         animator.ResetControllerState();
-        gameObject.SetActive(false);
         rb.linearVelocity = Vector3.zero;
+        gameObject.SetActive(false);
     }
+
 }

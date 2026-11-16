@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 namespace Main.Scripts.States
 {
     public class MainMenuState : IGameState
     {
+        public event Action OnLeave;
         private StateMachine m_stateMachine;
         private GameObject m_mainMenuCanvas;
         private MainMenu m_mainMenu;
@@ -19,20 +21,13 @@ namespace Main.Scripts.States
             m_mainMenuCanvas.SetActive(true);
             m_mainMenu.OnQuitGame += MainMenuOnQuitGame;
             m_mainMenu.OnStartGame += MainMenuOnStartGame;
+
+            m_mainMenu.OnQuitGame += m_stateMachine.Leave;
         }
 
         private void MainMenuOnStartGame()
         {
-            m_mainMenuCanvas.SetActive(false);
-            if (m_mainMenuCanvas.activeInHierarchy)
-            {
-                MainMenuOnStartGame();
-                return;
-            }
-            else
-            {
-                m_stateMachine.ChangeState<GamePlayState>();
-            }
+            m_stateMachine.ChangeState<GamePlayState>();
         }
 
         private void MainMenuOnQuitGame()
