@@ -1,11 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace Main.Scripts.States
 {
     public class MainMenuState : IGameState
     {
-        public event Action OnLeave;
         private StateMachine m_stateMachine;
         private GameObject m_mainMenuCanvas;
         private MainMenu m_mainMenu;
@@ -18,6 +16,7 @@ namespace Main.Scripts.States
 
         public void OnEnter()
         {
+            m_mainMenu.UpdateScore();
             m_mainMenuCanvas.SetActive(true);
             m_mainMenu.OnQuitGame += MainMenuOnQuitGame;
             m_mainMenu.OnStartGame += MainMenuOnStartGame;

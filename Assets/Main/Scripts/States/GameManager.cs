@@ -15,6 +15,7 @@ namespace Main.Scripts.States
         private StateMachine m_stateMachine;
 
         private static GameManager gameManagerInstanse;
+        private Score m_score;
         
         
         private void Awake()
@@ -28,20 +29,23 @@ namespace Main.Scripts.States
             gameManagerInstanse = this;
             
             m_stateMachine = new StateMachine();
-
+            m_score = new Score();
+            m_mainMenu = GameObject.Instantiate(m_mainMenu);
+            m_gameOverCanvas = GameObject.Instantiate(m_gameOverCanvas);
+            m_mainMenu.SetActive(false);
+            m_gameOverCanvas.SetActive(false);
+            
             m_stateMachine.Register(new MainMenuState(m_stateMachine, m_mainMenu));
-            m_stateMachine.Register(new GamePlayState(m_stateMachine, MainLevelObjectsToSpawn));
-            m_stateMachine.Register(new GameOverState(m_stateMachine, m_gameOverCanvas));
+            m_stateMachine.Register(new GamePlayState(m_stateMachine, MainLevelObjectsToSpawn, m_score));
+            m_stateMachine.Register(new GameOverState(m_stateMachine, m_gameOverCanvas, m_score));
 
             m_stateMachine.OnLeaveGame += LeaveGame;
             m_stateMachine.ChangeState<MainMenuState>();
             
             
-            var menu = GameObject.Instantiate(m_mainMenu);
-            var gomenu = GameObject.Instantiate(m_gameOverCanvas);
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(menu);
-            DontDestroyOnLoad(gomenu);
+            DontDestroyOnLoad(m_mainMenu);
+            DontDestroyOnLoad(m_gameOverCanvas);
         }
 
         public void LeaveGame()

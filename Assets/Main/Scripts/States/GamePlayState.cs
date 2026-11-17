@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
 
 namespace Main.Scripts.States
@@ -17,20 +15,24 @@ namespace Main.Scripts.States
         private List<GameObject> m_spawners = new List<GameObject>(4);
         private GameObject m_enemySpawner;
         private GameObject m_target;
+        private Score m_score;
         
         public GamePlayState(
             StateMachine stateMachine,
-            ObjectsToSpawn mainMenuObjectsToSpawn
+            ObjectsToSpawn mainMenuObjectsToSpawn,
+            Score score
             )
         {
             m_stateMachine =  stateMachine;
             m_mainLevelObjectsToSpawn = mainMenuObjectsToSpawn;
+            m_score = score;
         }
 
         public void OnEnter()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene("Main/MainScene");
+            m_score.SetStartTime(Time.time);
         }
         
         public void OnExit()
@@ -52,10 +54,12 @@ namespace Main.Scripts.States
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
+            
             SceneManager.sceneLoaded -= OnSceneLoaded;
             
             foreach (var obj in m_mainLevelObjectsToSpawn.transforms)
             {
+                
                 GameObject temp = Object.Instantiate(obj.gameObject, obj.position, obj.rotation);
 
                 try
@@ -76,6 +80,7 @@ namespace Main.Scripts.States
                     if (temp.CompareTag("EnemySpawner"))
                     {
                         m_enemySpawner =  temp;
+                        temp.GetComponent<EnemySpawner>().OnHitEnemySpawner += OnHitEnemy;
                     }
 
                     if (temp.CompareTag("Target"))
@@ -90,7 +95,11 @@ namespace Main.Scripts.States
             
             m_enemySpawner.GetComponent<EnemySpawner>().target = m_target;
             m_target.GetComponentInChildren<TargetBrain>().OnGameOver += GameOver;
-            Debug.LogError("");
+        }
+
+        private void OnHitEnemy()
+        {
+            m_score.HitEnemy();
         }
     }
 }

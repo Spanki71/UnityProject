@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -7,6 +8,7 @@ namespace Main.Scripts
     {
         [SerializeField] float wateTime = 5.0f;
         public float time;
+        
         
         private GameObject Prefab;
         private ObjectPool<GameObject> m_pool;
@@ -42,7 +44,7 @@ namespace Main.Scripts
                 maxSize: 50
             );
         }
-        
+
         void Start()
         {
             time = Time.time;

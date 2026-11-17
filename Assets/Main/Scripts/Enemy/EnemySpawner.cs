@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     private List<Transform> m_spawnPoints =  new List<Transform>(3);
     [SerializeField]
     private GameObject m_prefab;
+
+    public event Action OnHitEnemySpawner;
 
     public GameObject target;
     
@@ -42,12 +46,16 @@ public class EnemySpawner : MonoBehaviour
     {
         obj.SetActive(true);
         int pos = Random.Range(0, m_spawnPoints.Count);
-        obj.GetComponent<EnemyBrain>().OnGet(m_spawnPoints[pos]);
+        EnemyBrain brain = obj.GetComponent<EnemyBrain>();
+        brain.OnGet(m_spawnPoints[pos]);
+        brain.OnHitEnemy += OnHitEnemy;
     }
 
     private void OnRelease(GameObject obj)
     {
-        obj.GetComponent<EnemyBrain>().ResetForPull();
+        EnemyBrain brain = obj.GetComponent<EnemyBrain>();
+        brain.OnHitEnemy -= OnHitEnemy;
+        brain.ResetForPull();
         obj.SetActive(false);
     }
 
@@ -63,5 +71,10 @@ public class EnemySpawner : MonoBehaviour
             GameObject polledEnemy = m_pool.Get();
             m_time = Time.time;
         }
+    }
+
+    public void OnHitEnemy()
+    {
+        OnHitEnemySpawner?.Invoke();
     }
 }

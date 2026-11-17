@@ -42,7 +42,7 @@ namespace Main.Scripts
         {
             input.enabled = true;
         }
-
+        
         public void OnAttack()
         {
             m_animator.SetTrigger("Attack");

@@ -6,15 +6,17 @@ using UnityEngine.Pool;
 public class EnemyBrain : MonoBehaviour
 {
     [SerializeField]
-    private Animator animator;
+    private Animator m_animator;
     [SerializeField]
-    private Rigidbody rb;
+    private Rigidbody m_rb;
     [SerializeField]
-    private float speed = 2.0f;
-
+    private float m_speed = 2.0f;
+    
+    public event Action OnHitEnemy;
     public EnemySpawner spawner;
-    private Transform target;
-    private ObjectPool<GameObject> pool;
+    
+    private Transform m_target;
+    private ObjectPool<GameObject> m_pool;
     
 
     private void OnCollisionEnter(Collision collision)
@@ -23,8 +25,9 @@ public class EnemyBrain : MonoBehaviour
         {
             if (collision.impulse.magnitude > 1f)
             {
-                animator.SetTrigger("Die");
-                speed = 0;
+                OnHitEnemy?.Invoke();
+                m_animator.SetTrigger("Die");
+                m_speed = 0;
                 Invoke("GoPull", 2f);
             }
         }
@@ -37,32 +40,32 @@ public class EnemyBrain : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 dir =  (target.position - transform.position).normalized;
-        rb.linearVelocity = (dir * speed);
+        Vector3 dir =  (m_target.position - transform.position).normalized;
+        m_rb.linearVelocity = (dir * m_speed);
     }
     
     public void SetPull(ObjectPool<GameObject> pool)
     {
-        this.pool = pool;
+        this.m_pool = pool;
     }
     
     public void OnGet(Transform transform)
     {
         gameObject.transform.position = transform.position;
-        target = spawner.target.transform;
+        m_target = spawner.target.transform;
         gameObject.SetActive(true);
         transform.position = transform.position;
     }
 
     public void GoPull()
     {
-        pool.Release(gameObject);
+        m_pool.Release(gameObject);
     }
 
     public void ResetForPull()
     {
-        animator.ResetControllerState();
-        rb.linearVelocity = Vector3.zero;
+        m_animator.ResetControllerState();
+        m_rb.linearVelocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 
