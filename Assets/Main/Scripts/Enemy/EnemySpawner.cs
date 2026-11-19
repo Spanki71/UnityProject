@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    public float wateInterval = 10.0f;
+    public float wateInterval = 20.0f;
     [SerializeField]
-    public float m_startWaveTime = 3.0f;
+    public float m_startWaveTime = 6.0f;
     [SerializeField]
     public float m_visibleTime = 5.0f;
     [SerializeField]

@@ -37,12 +37,13 @@ namespace Main.Scripts.States
             
             m_stateMachine = new StateMachine();
             m_score = new Score();
+            m_wavesLogic =  new WavesLogic();
             
             m_mainMenu = GameObject.Instantiate(m_mainMenu);
             m_gameOverCanvas = GameObject.Instantiate(m_gameOverCanvas);
             m_gamePlayUI = GameObject.Instantiate(m_gamePlayUI);
             m_pauseMenu = GameObject.Instantiate(m_pauseMenu);
-            m_wavesLogic =  new WavesLogic();
+            
             
             m_mainMenu.SetActive(false);
             m_gameOverCanvas.SetActive(false);

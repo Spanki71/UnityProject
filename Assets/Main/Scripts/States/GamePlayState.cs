@@ -25,6 +25,7 @@ namespace Main.Scripts.States
         private PauseUiBrain m_pauseBrain;
         private WavesLogic m_wavesLogic;
         
+        
         public GamePlayState(
             StateMachine stateMachine,
             ObjectsToSpawn mainMenuObjectsToSpawn,
@@ -58,7 +59,6 @@ namespace Main.Scripts.States
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene("Main/MainScene");
             m_score.SetStartTime(Time.time);
-
         }
 
         public void OnExit()
@@ -96,7 +96,9 @@ namespace Main.Scripts.States
                         m_player = temp;
                         m_playerController = m_player.GetComponent<PlayerController>();
                         m_playerController.OnDeath += GameOver;
-                        m_playerController.SetInputEnabled(true);
+                        // возможно вернуть
+                        m_playerController.SetInputEnabled(false);
+                        m_playerController.cam.enabled = false;
                     }
                     
                     if (temp.CompareTag("Spawner"))

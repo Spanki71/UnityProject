@@ -10,6 +10,8 @@ namespace Main.Scripts
         private TMP_Text m_scoreText;
         [SerializeField]
         private GameObject m_clearButton;
+        [SerializeField]
+        private GameObject m_scorePanel;
         public event Action OnQuitGame;
         public event Action OnStartGame;
 
