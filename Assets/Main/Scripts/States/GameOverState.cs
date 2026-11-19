@@ -53,10 +53,7 @@ namespace Main.Scripts.States
 
         public void Leave()
         {
-            SceneManager.LoadScene("MainMenu");
             m_stateMachine.ChangeState<MainMenuState>();
         }
     }
 }
-
-// TODO: расчитать Score

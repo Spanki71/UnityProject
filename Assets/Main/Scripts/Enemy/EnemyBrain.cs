@@ -42,6 +42,10 @@ public class EnemyBrain : MonoBehaviour
     {
         Vector3 dir =  (m_target.position - transform.position).normalized;
         m_rb.linearVelocity = (dir * m_speed);
+        if (dir.magnitude > 0.1f)
+        {
+            gameObject.transform.rotation = Quaternion.LookRotation(dir);
+        }
     }
     
     public void SetPull(ObjectPool<GameObject> pool)

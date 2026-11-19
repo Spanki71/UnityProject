@@ -32,5 +32,11 @@ namespace Main.Scripts
         {
             return m_enemyScore;
         }
+
+        public void Reset()
+        {
+            m_enemyScore = 0;
+            m_startTime = Time.time;
+        }
     }
 }

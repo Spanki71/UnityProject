@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,47 +16,64 @@ namespace Main.Scripts.States
         private List<GameObject> m_spawners = new List<GameObject>(4);
         private GameObject m_enemySpawner;
         private GameObject m_target;
+        private TargetBrain  m_targetBrain;
         private Score m_score;
+
+        private GameObject m_gamePlayUI;
+        private GamePlayUIBrain m_gameUIBrain;
+        private GameObject m_pauseMenu;
+        private PauseUiBrain m_pauseBrain;
         
         public GamePlayState(
             StateMachine stateMachine,
             ObjectsToSpawn mainMenuObjectsToSpawn,
-            Score score
+            Score score,
+            GameObject gamePlayUI,
+            GameObject pauseMenu
             )
         {
             m_stateMachine =  stateMachine;
             m_mainLevelObjectsToSpawn = mainMenuObjectsToSpawn;
             m_score = score;
+            m_gamePlayUI = gamePlayUI;
+            m_pauseMenu = pauseMenu;
         }
 
         public void OnEnter()
         {
+            Debug.Log(m_score.GetTimeScore());
+            m_gameUIBrain = m_gamePlayUI.GetComponent<GamePlayUIBrain>();
+            m_pauseBrain = m_pauseMenu.GetComponent<PauseUiBrain>();
+            m_gamePlayUI.SetActive(true);
+            m_gameUIBrain.OnPause += Pause;
+
+            m_pauseBrain.OnResume += OnResume;
+            m_pauseBrain.OnRestart += OnRestart;
+            m_pauseBrain.OnToMenu += OnToMenu;
+            
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene("Main/MainScene");
             m_score.SetStartTime(Time.time);
+
         }
-        
+
         public void OnExit()
         {
-            m_playerController.OnDeath -= GameOver;
             m_playerController.SetInputEnabled(false);
-            m_enemySpawner.SetActive(false);
-            foreach (var spawner in m_spawners)
-            {
-                spawner.SetActive(false);
-            }
+            m_gameUIBrain.OnPause -= Pause;
+            m_playerController.OnDeath -= GameOver;
+            
+            m_pauseBrain.OnResume -= OnResume;
+            m_pauseBrain.OnRestart -= OnRestart;
+            m_pauseBrain.OnToMenu -= OnToMenu;
+            
         }
-
-        private void GameOver()
-        {
-            m_target.GetComponentInChildren<TargetBrain>().OnGameOver -= GameOver;
-            m_stateMachine.ChangeState<GameOverState>();
-        }
-
+        
         private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
             
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            m_spawners.Clear();
             
             foreach (var obj in m_mainLevelObjectsToSpawn.transforms)
             {
@@ -86,6 +104,9 @@ namespace Main.Scripts.States
                     if (temp.CompareTag("Target"))
                     {
                         m_target = temp;
+                        m_targetBrain = m_target.GetComponentInChildren<TargetBrain>();
+                        m_targetBrain.OnGetDamage += SetGamePlayUIInfo;
+                        m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
                     }
                 }
                 catch
@@ -95,11 +116,79 @@ namespace Main.Scripts.States
             
             m_enemySpawner.GetComponent<EnemySpawner>().target = m_target;
             m_target.GetComponentInChildren<TargetBrain>().OnGameOver += GameOver;
+            m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
         }
 
+        private void Pause()
+        {
+            Time.timeScale = 0;
+            m_pauseMenu.SetActive(true);
+            
+            m_playerController.SetInputEnabled(false);
+            m_enemySpawner.SetActive(false);
+            m_gamePlayUI.SetActive(false);
+            
+            foreach (var spawner in m_spawners)
+            {
+                Debug.Log(spawner);
+                spawner.SetActive(false);
+            }
+        }
+
+        private void OnResume()
+        {
+            m_playerController.SetInputEnabled(true);
+            m_enemySpawner.SetActive(true);
+            m_gamePlayUI.SetActive(true);
+            
+            foreach (var spawner in m_spawners)
+            {
+                spawner.SetActive(true);
+            }
+
+            m_pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+
+        private void OnRestart()
+        {
+            ResetLevel();
+            Time.timeScale = 1;
+            m_playerController.SetInputEnabled(false);
+            m_pauseMenu.SetActive(false);
+            m_stateMachine.ChangeState<GamePlayState>();
+        }
+
+        private void OnToMenu()
+        {
+            ResetLevel();
+            Time.timeScale = 1;
+            m_pauseMenu.SetActive(false);
+            m_playerController.SetInputEnabled(false);
+            m_stateMachine.ChangeState<MainMenuState>();
+        }
+
+        private void GameOver()
+        {
+            m_target.GetComponentInChildren<TargetBrain>().OnGameOver -= GameOver;
+            m_stateMachine.ChangeState<GameOverState>();
+        }
+        
         private void OnHitEnemy()
         {
             m_score.HitEnemy();
+            m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
+        }
+
+        private void SetGamePlayUIInfo()
+        {
+            m_gameUIBrain.SetTargetHp(m_targetBrain.health);
+        }
+
+        private void ResetLevel()
+        {
+            m_targetBrain.Reset();
+            m_score.Reset();
         }
     }
 }

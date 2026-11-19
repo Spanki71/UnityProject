@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Main.Scripts.States
 {
@@ -14,16 +15,6 @@ namespace Main.Scripts.States
             m_mainMenu = m_mainMenuCanvas.gameObject.GetComponent<MainMenu>();
         }
 
-        public void OnEnter()
-        {
-            m_mainMenu.UpdateScore();
-            m_mainMenuCanvas.SetActive(true);
-            m_mainMenu.OnQuitGame += MainMenuOnQuitGame;
-            m_mainMenu.OnStartGame += MainMenuOnStartGame;
-
-            m_mainMenu.OnQuitGame += m_stateMachine.Leave;
-        }
-
         private void MainMenuOnStartGame()
         {
             m_stateMachine.ChangeState<GamePlayState>();
@@ -33,12 +24,29 @@ namespace Main.Scripts.States
         {
             Application.Quit();
         }
+        
+        public void OnEnter()
+        {
+            if (SceneManager.GetActiveScene().name != "MainMenu")
+            {
+                SceneManager.LoadScene("Main/MainMenu");
+            }
+            
+            m_mainMenu.UpdateScore();
+            m_mainMenuCanvas.SetActive(true);
+            m_mainMenu.OnQuitGame += MainMenuOnQuitGame;
+            m_mainMenu.OnStartGame += MainMenuOnStartGame;
+
+            m_mainMenu.OnQuitGame += m_stateMachine.Leave;
+        }
 
         public void OnExit()
         {
             m_mainMenuCanvas.SetActive(false);
             m_mainMenu.OnQuitGame -= MainMenuOnQuitGame;
             m_mainMenu.OnStartGame -= MainMenuOnStartGame;
+            
+            m_mainMenu.OnQuitGame -= m_stateMachine.Leave;
         }
     }
 }

@@ -4,10 +4,18 @@ using UnityEngine;
 public class TargetBrain : MonoBehaviour
 {
     [SerializeField]
-    public float health = 100.0f;
+    private float m_maxHealth = 100.0f;
 
+    public float health;
+
+    public event Action OnGetDamage;
     public event Action OnGameOver;
     public float damageToTarget = 10.0f;
+
+    public void Start()
+    {
+        health =  m_maxHealth;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,11 +30,23 @@ public class TargetBrain : MonoBehaviour
         if (health > damageToTarget)
         {
             health -= damageToTarget;
+            OnGetDamage?.Invoke();
         }
         else
         {
             health = 0;
+            OnGetDamage?.Invoke();
             OnGameOver?.Invoke();
         }
+    }
+
+    public void Reset()
+    {
+        health = m_maxHealth;
+    }
+    
+    public float GetMaxHealth()
+    {
+        return m_maxHealth;
     }
 }
