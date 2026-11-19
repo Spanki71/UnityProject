@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     public float waveTime = 10.0f;
     [SerializeField]
-    public float m_startWaveTime = 30.0f;
+    public float m_startWaveTime = 60.0f;
     [SerializeField]
     public float m_visibleTime = 5.0f;
     [SerializeField]

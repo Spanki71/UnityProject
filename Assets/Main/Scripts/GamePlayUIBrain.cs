@@ -15,6 +15,8 @@ public class GamePlayUIBrain : MonoBehaviour
     public TMP_Text wavesText;
     [SerializeField]
     private TMP_Text m_waveScore;
+    [SerializeField]
+    public VariableJoystick m_variableJoystick;
     
     public event Action OnPause;
     private float m_targetMaxHp;

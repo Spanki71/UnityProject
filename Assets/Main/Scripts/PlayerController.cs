@@ -17,6 +17,7 @@ namespace Main.Scripts
         [SerializeField]
         public float jumpForce;
     
+        public VariableJoystick variableJoystick;
         public float speed;
         CharacterController controller;
         PlayerInput input;
@@ -48,11 +49,11 @@ namespace Main.Scripts
             m_animator.SetTrigger("Attack");
         }
 
-        public void OnMove(InputValue value)
+        public void OnMove()
         {
-            m_moveInput = value.Get<Vector2>();
-            m_animator.SetFloat("AxisX", m_moveInput.x);
-            m_animator.SetFloat("AxisY", m_moveInput.y);
+            //m_moveInput = value.Get<Vector2>();
+            m_animator.SetFloat("AxisX", variableJoystick.Horizontal);
+            m_animator.SetFloat("AxisY", variableJoystick.Vertical);
         }
 
         public void OnJump(InputValue value)
@@ -85,10 +86,10 @@ namespace Main.Scripts
             {
                 verticalForce = -2.0f;
             }
-        
-            Vector3 direction = (GetForward() * m_moveInput.y + GetRight() * m_moveInput.x).normalized;
+            
+            Vector3 direction = (GetForward() * variableJoystick.Vertical + GetRight() * variableJoystick.Horizontal).normalized;
             Vector3 verticalDirection = Vector3.up * (verticalForce * Time.deltaTime);
-        
+            //
             controller.Move(direction * (baseSpeed * Time.deltaTime) + verticalDirection);
         
             speed = controller.velocity.magnitude;

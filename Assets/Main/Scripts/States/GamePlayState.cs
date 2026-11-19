@@ -96,9 +96,9 @@ namespace Main.Scripts.States
                         m_player = temp;
                         m_playerController = m_player.GetComponent<PlayerController>();
                         m_playerController.OnDeath += GameOver;
-                        // возможно вернуть
                         m_playerController.SetInputEnabled(false);
                         m_playerController.cam.enabled = false;
+                        m_playerController.variableJoystick = m_gameUIBrain.m_variableJoystick;
                     }
                     
                     if (temp.CompareTag("Spawner"))
