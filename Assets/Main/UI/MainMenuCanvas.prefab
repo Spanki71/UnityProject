@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   m_scoreText: {fileID: 4572576479844418779}
   m_clearButton: {fileID: 9152789675992273949}
-  m_scorePanel: {fileID: 7833568876354259538}
+  m_scorePanel: {fileID: 3926385801387025562}
 --- !u!1 &9152789675992273949
 GameObject:
   m_ObjectHideFlags: 0

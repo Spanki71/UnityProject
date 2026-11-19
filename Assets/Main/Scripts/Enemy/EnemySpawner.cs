@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    public float wateInterval = 20.0f;
+    public float waveTime = 10.0f;
     [SerializeField]
-    public float m_startWaveTime = 6.0f;
+    public float m_startWaveTime = 30.0f;
     [SerializeField]
     public float m_visibleTime = 5.0f;
     [SerializeField]
@@ -74,13 +74,13 @@ public class EnemySpawner : MonoBehaviour
     {
         m_time = Time.time;
         m_wavesLogic.SetEnemySpawner(this);
-        m_wavesLogic.StartWave(wateInterval,m_visibleTime, m_startWaveTime);
+        m_wavesLogic.StartWave(m_startWaveTime,m_visibleTime, waveTime);
         m_wavesLogic.OnWaveEnd += WaveEnd;
     }
         
     void Update()
     {
-        if (Time.time - m_time > wateInterval && canSpawn)
+        if (Time.time - m_time > waveTime && canSpawn)
         {
             GameObject polledEnemy = m_pool.Get();
             m_time = Time.time;

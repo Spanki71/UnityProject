@@ -28,7 +28,7 @@ namespace Main.Scripts
         public void SetEnemySpawner(EnemySpawner  enemySpawner)
         {
             m_spawner = enemySpawner;
-            m_interval = m_spawner.wateInterval;
+            m_interval = m_spawner.waveTime;
             m_visibleTime = m_spawner.m_visibleTime;
             m_waveTime = m_spawner.m_startWaveTime;
         }

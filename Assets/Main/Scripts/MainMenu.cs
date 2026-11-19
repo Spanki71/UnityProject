@@ -29,6 +29,7 @@ namespace Main.Scripts
             else
             {
                 m_scoreText.text = "";
+                m_scorePanel.SetActive(false);
                 m_clearButton.SetActive(false);
             }
         }
