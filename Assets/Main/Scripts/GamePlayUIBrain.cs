@@ -9,6 +9,12 @@ public class GamePlayUIBrain : MonoBehaviour
     private TMP_Text m_EnemyCount;
     [SerializeField]
     private Image m_hpBar;
+    [SerializeField]
+    public GameObject wavesInfo;
+    [SerializeField]
+    public TMP_Text wavesText;
+    [SerializeField]
+    private TMP_Text m_waveScore;
     
     public event Action OnPause;
     private float m_targetMaxHp;
@@ -35,5 +41,10 @@ public class GamePlayUIBrain : MonoBehaviour
     public void SetMaxHp(float hp)
     {
         m_targetMaxHp = hp;
+    }
+
+    public void UpdateWave(int wave)
+    {
+        m_waveScore.text = $"Волн прожито: {wave}";
     }
 }

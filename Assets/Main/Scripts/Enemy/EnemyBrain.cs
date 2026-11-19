@@ -12,7 +12,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField]
     private float m_speed = 2.0f;
     
-    public event Action OnHitEnemy;
+    public event Action OnEnemyDie;
     public EnemySpawner spawner;
     
     private Transform m_target;
@@ -25,7 +25,7 @@ public class EnemyBrain : MonoBehaviour
         {
             if (collision.impulse.magnitude > 1f)
             {
-                OnHitEnemy?.Invoke();
+                OnEnemyDie?.Invoke();
                 m_animator.SetTrigger("Die");
                 m_speed = 0;
                 Invoke("GoPull", 2f);
@@ -34,6 +34,7 @@ public class EnemyBrain : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Target"))
         {
+            OnEnemyDie?.Invoke();
             GoPull();
         } 
     }

@@ -29,8 +29,10 @@ namespace Main.Scripts.States
             
             float time = PlayerPrefs.GetFloat("TimeScore", 0);
             int count = PlayerPrefs.GetInt("EnemyCountScore", 0);
+            int waves = PlayerPrefs.GetInt("WavesScore", 0);
             float newTime = m_score.GetTimeScore();
             int newCount = m_score.GetEnemyCountScore();
+            int newWaves = m_score.GetWaves();
             
             if (newTime > time)
             {
@@ -41,7 +43,12 @@ namespace Main.Scripts.States
             {
                 PlayerPrefs.SetInt("EnemyCountScore", newCount);
             }
-            
+
+            if (newWaves > waves)
+            {
+                PlayerPrefs.SetInt("WavesScore", newWaves);
+            }
+
         }
 
         public void OnExit()

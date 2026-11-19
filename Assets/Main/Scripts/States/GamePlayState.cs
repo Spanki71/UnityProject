@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +13,8 @@ namespace Main.Scripts.States
         private PlayerController m_playerController;
         private ObjectsToSpawn m_mainLevelObjectsToSpawn;
         private List<GameObject> m_spawners = new List<GameObject>(4);
-        private GameObject m_enemySpawner;
+        private GameObject m_enemySpawnerGo;
+        private EnemySpawner m_enemySpawner;
         private GameObject m_target;
         private TargetBrain  m_targetBrain;
         private Score m_score;
@@ -23,13 +23,15 @@ namespace Main.Scripts.States
         private GamePlayUIBrain m_gameUIBrain;
         private GameObject m_pauseMenu;
         private PauseUiBrain m_pauseBrain;
+        private WavesLogic m_wavesLogic;
         
         public GamePlayState(
             StateMachine stateMachine,
             ObjectsToSpawn mainMenuObjectsToSpawn,
             Score score,
             GameObject gamePlayUI,
-            GameObject pauseMenu
+            GameObject pauseMenu,
+            WavesLogic wavesLogic
             )
         {
             m_stateMachine =  stateMachine;
@@ -37,13 +39,15 @@ namespace Main.Scripts.States
             m_score = score;
             m_gamePlayUI = gamePlayUI;
             m_pauseMenu = pauseMenu;
+            m_wavesLogic = wavesLogic;
         }
 
         public void OnEnter()
         {
-            Debug.Log(m_score.GetTimeScore());
             m_gameUIBrain = m_gamePlayUI.GetComponent<GamePlayUIBrain>();
             m_pauseBrain = m_pauseMenu.GetComponent<PauseUiBrain>();
+            m_wavesLogic.waveInfo = m_gameUIBrain.wavesInfo;
+            m_wavesLogic.waveText = m_gameUIBrain.wavesText;
             m_gamePlayUI.SetActive(true);
             m_gameUIBrain.OnPause += Pause;
 
@@ -59,6 +63,8 @@ namespace Main.Scripts.States
 
         public void OnExit()
         {
+            m_wavesLogic.waveInfo = null;
+            m_wavesLogic.waveText = null;
             m_playerController.SetInputEnabled(false);
             m_gameUIBrain.OnPause -= Pause;
             m_playerController.OnDeath -= GameOver;
@@ -66,6 +72,9 @@ namespace Main.Scripts.States
             m_pauseBrain.OnResume -= OnResume;
             m_pauseBrain.OnRestart -= OnRestart;
             m_pauseBrain.OnToMenu -= OnToMenu;
+            
+            m_enemySpawner.ToOnEnemyDieUpdateScore -= UpdateScore;
+            m_enemySpawner.WaveEndToUpdateScore -= UpdateWave;
             
         }
         
@@ -97,8 +106,9 @@ namespace Main.Scripts.States
 
                     if (temp.CompareTag("EnemySpawner"))
                     {
-                        m_enemySpawner =  temp;
-                        temp.GetComponent<EnemySpawner>().OnHitEnemySpawner += OnHitEnemy;
+                        m_enemySpawnerGo = temp;
+                        m_enemySpawner = temp.GetComponent<EnemySpawner>();
+                        m_enemySpawner.SetWaveLogic(m_wavesLogic);
                     }
 
                     if (temp.CompareTag("Target"))
@@ -114,9 +124,11 @@ namespace Main.Scripts.States
                 }
             }
             
-            m_enemySpawner.GetComponent<EnemySpawner>().target = m_target;
+            m_enemySpawnerGo.GetComponent<EnemySpawner>().target = m_target;
             m_target.GetComponentInChildren<TargetBrain>().OnGameOver += GameOver;
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
+            m_enemySpawner.ToOnEnemyDieUpdateScore += UpdateScore;
+            m_enemySpawner.WaveEndToUpdateScore += UpdateWave;
         }
 
         private void Pause()
@@ -125,7 +137,7 @@ namespace Main.Scripts.States
             m_pauseMenu.SetActive(true);
             
             m_playerController.SetInputEnabled(false);
-            m_enemySpawner.SetActive(false);
+            m_enemySpawnerGo.SetActive(false);
             m_gamePlayUI.SetActive(false);
             
             foreach (var spawner in m_spawners)
@@ -138,7 +150,7 @@ namespace Main.Scripts.States
         private void OnResume()
         {
             m_playerController.SetInputEnabled(true);
-            m_enemySpawner.SetActive(true);
+            m_enemySpawnerGo.SetActive(true);
             m_gamePlayUI.SetActive(true);
             
             foreach (var spawner in m_spawners)
@@ -174,10 +186,15 @@ namespace Main.Scripts.States
             m_stateMachine.ChangeState<GameOverState>();
         }
         
-        private void OnHitEnemy()
+        private void UpdateScore()
         {
             m_score.HitEnemy();
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
+        }
+
+        private void UpdateWave()
+        {
+            m_score.UpdateWave(m_gameUIBrain);
         }
 
         private void SetGamePlayUIInfo()

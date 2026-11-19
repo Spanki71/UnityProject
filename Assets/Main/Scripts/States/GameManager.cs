@@ -22,6 +22,7 @@ namespace Main.Scripts.States
 
         private static GameManager gameManagerInstanse;
         private Score m_score;
+        private WavesLogic m_wavesLogic;
         
         
         private void Awake()
@@ -41,6 +42,7 @@ namespace Main.Scripts.States
             m_gameOverCanvas = GameObject.Instantiate(m_gameOverCanvas);
             m_gamePlayUI = GameObject.Instantiate(m_gamePlayUI);
             m_pauseMenu = GameObject.Instantiate(m_pauseMenu);
+            m_wavesLogic =  new WavesLogic();
             
             m_mainMenu.SetActive(false);
             m_gameOverCanvas.SetActive(false);
@@ -52,7 +54,8 @@ namespace Main.Scripts.States
                 MainLevelObjectsToSpawn,
                 m_score,
                 m_gamePlayUI,
-                m_pauseMenu));
+                m_pauseMenu,
+                m_wavesLogic));
             m_stateMachine.Register(new GameOverState(m_stateMachine, m_gameOverCanvas, m_score));
 
             m_stateMachine.OnLeaveGame += LeaveGame;
