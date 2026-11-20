@@ -12,7 +12,7 @@ namespace Main.Scripts.Enemy
         public event Action onWaveEndToUpdateScore;
         
         public GameObject target;
-        public bool canSpawn = true;
+        public bool canSpawn = false;
         
         [SerializeField] public float waveTime = 10.0f;
         [SerializeField] public float m_startWaveTime = 60.0f;

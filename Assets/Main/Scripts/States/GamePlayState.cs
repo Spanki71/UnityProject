@@ -51,10 +51,10 @@ namespace Main.Scripts.States
         {
             m_gameUIBrain = m_gamePlayUI.GetComponent<GamePlayUIBrain>();
             m_pauseBrain = m_pauseMenu.GetComponent<PauseUiBrain>();
+            m_gamePlayUI.SetActive(false);
             
             m_wavesLogic.waveInfo = m_gameUIBrain.wavesInfo;
             m_wavesLogic.waveText = m_gameUIBrain.wavesText;
-            m_gamePlayUI.SetActive(false);
             m_gameUIBrain.onPause += OnPauseHandler;
             m_pauseBrain.onResume += OnResumeHandler;
             m_pauseBrain.onRestart += OnRestartHandler;
@@ -132,8 +132,9 @@ namespace Main.Scripts.States
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
             m_enemySpawner.onEnemyDieUpdateScore += OnUpdateScoreHandler;
             m_enemySpawner.onWaveEndToUpdateScore += OnUpdateOnWaveHandler;
-            
-            m_director = Object.Instantiate(m_directorGo).GetComponent<PlayableDirector>();
+
+            m_directorGo = Object.Instantiate(m_directorGo);
+            m_director = m_directorGo.GetComponent<PlayableDirector>();
             if (m_director == null || m_director.playableAsset == null)
             {
                 Debug.LogError("В префабе катсцены нет PlayableDirector или TimelineAsset!");
@@ -224,10 +225,8 @@ namespace Main.Scripts.States
         {
             m_playerController.SetInputEnabled(true);
             m_gamePlayUI.SetActive(true);
-            m_director.Stop();
-            m_playerController.cameraGo.SetActive(true);
-            m_gamePlayUI.SetActive(true);
             m_director.stopped -= OnDirectorStoppedHandler;
+            m_directorGo.SetActive(false);
         }
     }
 }

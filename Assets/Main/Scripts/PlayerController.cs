@@ -12,6 +12,7 @@ namespace Main.Scripts
         public VariableJoystick variableJoystick;
         public float speed;
         
+        [SerializeField] public float lookSensitivity = 5.0f;
         [SerializeField] public float jumpForce;
         [SerializeField] public GameObject cameraGo;
         [SerializeField] public Camera cam;
@@ -98,7 +99,7 @@ namespace Main.Scripts
         
         public void OnLook(InputValue value)
         {
-            m_lookInput = value.Get<Vector2>();
+            m_lookInput = value.Get<Vector2>() * lookSensitivity;
 
         
             gameObject.transform.Rotate(Vector3.up, m_lookInput.x);
