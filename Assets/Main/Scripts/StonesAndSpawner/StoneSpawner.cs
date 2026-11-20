@@ -1,20 +1,33 @@
-using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Main.Scripts
+namespace Main.Scripts.StonesAndSpawner
 {
     public class StoneSpawner : MonoBehaviour
     {
-        [SerializeField] float wateTime = 5.0f;
         public float time;
         
+        [SerializeField] float wateTime = 5.0f;
         
         private GameObject Prefab;
         private ObjectPool<GameObject> m_pool;
         private GameObject m_activeStone;
         private StoneBrain m_activeStoneBrain;
 
+        void Start()
+        {
+            time = Time.time;
+            GameObject _polledStone = m_pool.Get();
+        }
+        
+        void Update()
+        {
+            if (m_activeStoneBrain.canSpawnStone && (Time.time - time > wateTime))
+            {
+                GameObject _polledStone = m_pool.Get();
+            }
+        }
+        
         private void Awake()
         {
             Prefab = transform.GetChild(0).gameObject;
@@ -43,21 +56,6 @@ namespace Main.Scripts
                 defaultCapacity: 20,
                 maxSize: 50
             );
-        }
-
-        void Start()
-        {
-            time = Time.time;
-            GameObject _polledStone = m_pool.Get();
-        }
-        
-        void Update()
-        {
-        
-            if (m_activeStoneBrain.canSpawnStone && (Time.time - time > wateTime))
-            {
-                GameObject _polledStone = m_pool.Get();
-            }
         }
     }
 }

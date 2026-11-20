@@ -3,23 +3,19 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
-
-namespace Main.Scripts
+namespace Main.Scripts.Enemy
 {
     public class WavesLogic
     {
+        public event Action onWaveEnd;
+        
         public GameObject waveInfo;
         public TMP_Text waveText;
-
         public float timeUpper = 5.0f;
-        public event Action OnWaveEnd;
         
         private EnemySpawner m_spawner;
-
         private CancellationTokenSource m_cts =  new CancellationTokenSource();
-        
         private int m_currentWave = 1;
-        
         private float m_interval;
         private float m_waveTime;
         private float m_visibleTime;
@@ -33,7 +29,7 @@ namespace Main.Scripts
             m_waveTime = m_spawner.m_startWaveTime;
         }
         
-        public async void StartWave(float timeWaitStart, float visibleTime, float waveTime)
+        public async void StartWaveAsync(float timeWaitStart, float visibleTime, float waveTime)
         {
             await Awaitable.WaitForSecondsAsync(timeWaitStart, m_cts.Token);
             waveText.text = $"Начинается {m_currentWave} волна";
@@ -47,7 +43,7 @@ namespace Main.Scripts
             m_spawner.canSpawn = false;
         }
 
-        public async void StopWave(float waveTime)
+        public async void StopWaveAsync(float waveTime)
         {
             waveText.text = $"Вы продержались {m_currentWave} волну";
             waveInfo.SetActive(true);
@@ -56,21 +52,18 @@ namespace Main.Scripts
             waveInfo.SetActive(false);
 
             m_currentWave++;
-            OnWaveEnd?.Invoke();
+            onWaveEnd?.Invoke();
             m_endTime = Time.time + waveTime;
-            StartWave(m_interval, m_visibleTime, m_waveTime);
+            StartWaveAsync(m_interval, m_visibleTime, m_waveTime);
         }
-
         
-
         public void CheckEndOfWave()
         {
             if ( m_spawner.GetActiveEnemyies() <= 0 && !m_spawner.canSpawn)
             {
                 m_waveTime += timeUpper;
-                StopWave(m_waveTime);
+                StopWaveAsync(m_waveTime);
             }
         }
-
     }
 }

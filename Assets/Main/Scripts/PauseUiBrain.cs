@@ -5,24 +5,24 @@ namespace Main.Scripts
 {
     public class PauseUiBrain : MonoBehaviour
     {
-        public event Action OnResume;
-        public event Action OnRestart;
-        public event Action OnToMenu;
+        public event Action onResume;
+        public event Action onRestart;
+        public event Action onToMenu;
         
         public void Resume()
         {
             Debug.Log("Resuming");
-            OnResume?.Invoke();
+            onResume?.Invoke();
         }
 
         public void Restart()
         {
-            OnRestart?.Invoke();
+            onRestart?.Invoke();
         }
 
         public void ToMenu()
         {
-            OnToMenu?.Invoke();
+            onToMenu?.Invoke();
         }
     }
 }

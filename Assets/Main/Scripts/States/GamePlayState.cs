@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Main.Scripts.Enemy;
+using Main.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 
 namespace Main.Scripts.States
 {
@@ -24,7 +25,6 @@ namespace Main.Scripts.States
         private GameObject m_pauseMenu;
         private PauseUiBrain m_pauseBrain;
         private WavesLogic m_wavesLogic;
-        
         
         public GamePlayState(
             StateMachine stateMachine,
@@ -50,13 +50,13 @@ namespace Main.Scripts.States
             m_wavesLogic.waveInfo = m_gameUIBrain.wavesInfo;
             m_wavesLogic.waveText = m_gameUIBrain.wavesText;
             m_gamePlayUI.SetActive(true);
-            m_gameUIBrain.OnPause += Pause;
+            m_gameUIBrain.onPause += OnPauseHandler;
 
-            m_pauseBrain.OnResume += OnResume;
-            m_pauseBrain.OnRestart += OnRestart;
-            m_pauseBrain.OnToMenu += OnToMenu;
+            m_pauseBrain.onResume += OnResumeHandler;
+            m_pauseBrain.onRestart += OnRestartHandler;
+            m_pauseBrain.onToMenu += OnToMenuHandler;
             
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoadedHandler;
             SceneManager.LoadScene("Main/MainScene");
             m_score.SetStartTime(Time.time);
         }
@@ -65,37 +65,34 @@ namespace Main.Scripts.States
         {
             m_wavesLogic.waveInfo = null;
             m_wavesLogic.waveText = null;
+            
             m_playerController.SetInputEnabled(false);
-            m_gameUIBrain.OnPause -= Pause;
-            m_playerController.OnDeath -= GameOver;
             
-            m_pauseBrain.OnResume -= OnResume;
-            m_pauseBrain.OnRestart -= OnRestart;
-            m_pauseBrain.OnToMenu -= OnToMenu;
-            
-            m_enemySpawner.ToOnEnemyDieUpdateScore -= UpdateScore;
-            m_enemySpawner.WaveEndToUpdateScore -= UpdateWave;
+            m_playerController.onDeath -= OnGameOverHandler;
+            m_gameUIBrain.onPause -= OnPauseHandler;
+            m_pauseBrain.onResume -= OnResumeHandler;
+            m_pauseBrain.onRestart -= OnRestartHandler;
+            m_pauseBrain.onToMenu -= OnToMenuHandler;
+            m_enemySpawner.onEnemyDieUpdateScore -= OnUpdateScoreHandler;
+            m_enemySpawner.onWaveEndToUpdateScore -= OnUpdateOnWaveHandler;
+            m_targetBrain.onGetDamage -= OnSetGamePlayUIInfoHandler;
             
         }
         
-        private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+        private void OnSceneLoadedHandler(Scene scene, LoadSceneMode sceneMode)
         {
-            
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneLoaded -= OnSceneLoadedHandler;
             m_spawners.Clear();
-            
             foreach (var obj in m_mainLevelObjectsToSpawn.transforms)
             {
-                
                 GameObject temp = Object.Instantiate(obj.gameObject, obj.position, obj.rotation);
-
                 try
                 {
                     if (temp.CompareTag("Player"))
                     {
                         m_player = temp;
                         m_playerController = m_player.GetComponent<PlayerController>();
-                        m_playerController.OnDeath += GameOver;
+                        m_playerController.onDeath += OnGameOverHandler;
                         m_playerController.SetInputEnabled(false);
                         m_playerController.cam.enabled = false;
                         m_playerController.variableJoystick = m_gameUIBrain.m_variableJoystick;
@@ -117,7 +114,7 @@ namespace Main.Scripts.States
                     {
                         m_target = temp;
                         m_targetBrain = m_target.GetComponentInChildren<TargetBrain>();
-                        m_targetBrain.OnGetDamage += SetGamePlayUIInfo;
+                        m_targetBrain.onGetDamage += OnSetGamePlayUIInfoHandler;
                         m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
                     }
                 }
@@ -127,13 +124,13 @@ namespace Main.Scripts.States
             }
             
             m_enemySpawnerGo.GetComponent<EnemySpawner>().target = m_target;
-            m_target.GetComponentInChildren<TargetBrain>().OnGameOver += GameOver;
+            m_target.GetComponentInChildren<TargetBrain>().onGameOver += OnGameOverHandler;
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
-            m_enemySpawner.ToOnEnemyDieUpdateScore += UpdateScore;
-            m_enemySpawner.WaveEndToUpdateScore += UpdateWave;
+            m_enemySpawner.onEnemyDieUpdateScore += OnUpdateScoreHandler;
+            m_enemySpawner.onWaveEndToUpdateScore += OnUpdateOnWaveHandler;
         }
 
-        private void Pause()
+        private void OnPauseHandler()
         {
             Time.timeScale = 0;
             m_pauseMenu.SetActive(true);
@@ -149,7 +146,7 @@ namespace Main.Scripts.States
             }
         }
 
-        private void OnResume()
+        private void OnResumeHandler()
         {
             m_playerController.SetInputEnabled(true);
             m_enemySpawnerGo.SetActive(true);
@@ -164,7 +161,7 @@ namespace Main.Scripts.States
             Time.timeScale = 1;
         }
 
-        private void OnRestart()
+        private void OnRestartHandler()
         {
             ResetLevel();
             Time.timeScale = 1;
@@ -173,7 +170,7 @@ namespace Main.Scripts.States
             m_stateMachine.ChangeState<GamePlayState>();
         }
 
-        private void OnToMenu()
+        private void OnToMenuHandler()
         {
             ResetLevel();
             Time.timeScale = 1;
@@ -182,24 +179,24 @@ namespace Main.Scripts.States
             m_stateMachine.ChangeState<MainMenuState>();
         }
 
-        private void GameOver()
+        private void OnGameOverHandler()
         {
-            m_target.GetComponentInChildren<TargetBrain>().OnGameOver -= GameOver;
+            m_target.GetComponentInChildren<TargetBrain>().onGameOver -= OnGameOverHandler;
             m_stateMachine.ChangeState<GameOverState>();
         }
         
-        private void UpdateScore()
+        private void OnUpdateScoreHandler()
         {
             m_score.HitEnemy();
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
         }
 
-        private void UpdateWave()
+        private void OnUpdateOnWaveHandler()
         {
             m_score.UpdateWave(m_gameUIBrain);
         }
 
-        private void SetGamePlayUIInfo()
+        private void OnSetGamePlayUIInfoHandler()
         {
             m_gameUIBrain.SetTargetHp(m_targetBrain.health);
         }
