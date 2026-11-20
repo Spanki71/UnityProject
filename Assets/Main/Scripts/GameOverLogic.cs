@@ -7,14 +7,15 @@ namespace Main.Scripts
 {
     public class GameOverLogic : MonoBehaviour
     {
+        public event Action onLeave;
+        
         [SerializeField]
         private TMP_Text m_scoreText;
-        public event Action OnLeave;
         private StateMachine m_stateMachine;
 
         public void OnButtonClicked()
         {
-            OnLeave?.Invoke();
+            onLeave?.Invoke();
         }
 
         public void SetScoreOnUI(Score score)

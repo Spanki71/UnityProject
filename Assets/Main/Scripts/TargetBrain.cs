@@ -1,52 +1,54 @@
 using System;
 using UnityEngine;
 
-public class TargetBrain : MonoBehaviour
+namespace Main.Scripts
 {
-    [SerializeField]
-    private float m_maxHealth = 100.0f;
-
-    public float health;
-
-    public event Action OnGetDamage;
-    public event Action OnGameOver;
-    public float damageToTarget = 10.0f;
-
-    public void Start()
+    public class TargetBrain : MonoBehaviour
     {
-        health =  m_maxHealth;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        public event Action onGetDamage;
+        public event Action onGameOver;
+        
+        public float health;
+        public float damageToTarget = 10.0f;
+        
+        [SerializeField] private float m_maxHealth = 100.0f;
+        
+        public void Reset()
         {
-            SubtractHealth();
+            health = m_maxHealth;
         }
-    }
-
-    private void SubtractHealth()
-    {
-        if (health > damageToTarget)
-        {
-            health -= damageToTarget;
-            OnGetDamage?.Invoke();
-        }
-        else
-        {
-            health = 0;
-            OnGetDamage?.Invoke();
-            OnGameOver?.Invoke();
-        }
-    }
-
-    public void Reset()
-    {
-        health = m_maxHealth;
-    }
     
-    public float GetMaxHealth()
-    {
-        return m_maxHealth;
+        public float GetMaxHealth()
+        {
+            return m_maxHealth;
+        }
+        
+        public void Start()
+        {
+            health =  m_maxHealth;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                SubtractHealth();
+            }
+        }
+
+        private void SubtractHealth()
+        {
+            if (health > damageToTarget)
+            {
+                health -= damageToTarget;
+                onGetDamage?.Invoke();
+            }
+            else
+            {
+                health = 0;
+                onGetDamage?.Invoke();
+                onGameOver?.Invoke();
+            }
+        }
     }
 }

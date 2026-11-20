@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Main.Scripts.Interfaces;
 
 namespace Main.Scripts.States
 {
     public class StateMachine
     {
-        public event Action OnLeaveGame;
+        public event Action onLeaveGame;
+        
         private IGameState m_currentState => m_stateStack?.Count > 0 ? m_stateStack.Peek() : null;
         private Stack<IGameState> m_stateStack = new();
         private readonly Dictionary<Type, IGameState> m_states = new Dictionary<Type, IGameState>();
@@ -39,7 +41,7 @@ namespace Main.Scripts.States
 
         public void Leave()
         {
-            OnLeaveGame?.Invoke();
+            onLeaveGame?.Invoke();
         }
     }
 }

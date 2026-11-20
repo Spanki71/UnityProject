@@ -1,6 +1,5 @@
-using System;
+using Main.Scripts.Interfaces;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Main.Scripts.States
 {
@@ -24,7 +23,7 @@ namespace Main.Scripts.States
         public void OnEnter()
         {
             m_canvas.SetActive(true);
-            m_gameOverLogic.OnLeave += Leave;
+            m_gameOverLogic.onLeave += OnLeaveHandler;
             m_gameOverLogic.SetScoreOnUI(m_score);
             
             float time = PlayerPrefs.GetFloat("TimeScore", 0);
@@ -48,17 +47,15 @@ namespace Main.Scripts.States
             {
                 PlayerPrefs.SetInt("WavesScore", newWaves);
             }
-
         }
 
         public void OnExit()
         {
-            
             m_canvas.SetActive(false);
-            m_gameOverLogic.OnLeave -= Leave;
+            m_gameOverLogic.onLeave -= OnLeaveHandler;
         }
 
-        public void Leave()
+        public void OnLeaveHandler()
         {
             m_stateMachine.ChangeState<MainMenuState>();
         }

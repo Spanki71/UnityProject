@@ -3,23 +3,20 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
-
-namespace Main.Scripts
+namespace Main.Scripts.Enemy
 {
     public class WavesLogic
     {
+        public event Action onWaveEnd;
+        
         public GameObject waveInfo;
         public TMP_Text waveText;
-
         public float timeUpper = 5.0f;
-        public event Action OnWaveEnd;
+        public bool playMode = false;
         
         private EnemySpawner m_spawner;
-
         private CancellationTokenSource m_cts =  new CancellationTokenSource();
-        
         private int m_currentWave = 1;
-        
         private float m_interval;
         private float m_waveTime;
         private float m_visibleTime;
@@ -33,44 +30,51 @@ namespace Main.Scripts
             m_waveTime = m_spawner.m_startWaveTime;
         }
         
-        public async void StartWave(float timeWaitStart, float visibleTime, float waveTime)
+        public async void StartWaveAsync(float timeWaitStart, float visibleTime, float waveTime)
         {
+            if (!playMode) return;
+            float time = Time.time;
             await Awaitable.WaitForSecondsAsync(timeWaitStart, m_cts.Token);
+            
+            if (!playMode) return;
+            
+            Debug.Log(Time.time - time);
             waveText.text = $"Начинается {m_currentWave} волна";
             waveInfo.SetActive(true);
-            m_spawner.canSpawn = true;
+            m_spawner.SetCanSpawn(true);
 
             await Awaitable.WaitForSecondsAsync(visibleTime, m_cts.Token);
+            if (!playMode) return;
             waveInfo.SetActive(false);
             
             await Awaitable.WaitForSecondsAsync(waveTime, m_cts.Token);
-            m_spawner.canSpawn = false;
+            if (!playMode) return;
+            m_spawner.SetCanSpawn(false);
         }
 
-        public async void StopWave(float waveTime)
+        public async void StopWaveAsync(float waveTime)
         {
+            if (!playMode) return;
             waveText.text = $"Вы продержались {m_currentWave} волну";
             waveInfo.SetActive(true);
             
             await Awaitable.WaitForSecondsAsync(m_visibleTime, m_cts.Token);
+            if (!playMode) return;
             waveInfo.SetActive(false);
 
             m_currentWave++;
-            OnWaveEnd?.Invoke();
+            onWaveEnd?.Invoke();
             m_endTime = Time.time + waveTime;
-            StartWave(m_interval, m_visibleTime, m_waveTime);
+            StartWaveAsync(m_interval, m_visibleTime, m_waveTime);
         }
-
         
-
         public void CheckEndOfWave()
         {
-            if ( m_spawner.GetActiveEnemyies() <= 0 && !m_spawner.canSpawn)
+            if ( m_spawner.GetActiveEnemyies() <= 0 && !m_spawner.GetCanSpawn())
             {
                 m_waveTime += timeUpper;
-                StopWave(m_waveTime);
+                StopWaveAsync(m_waveTime);
             }
         }
-
     }
 }

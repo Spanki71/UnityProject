@@ -933,9 +933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41473e4ea46310448f48a59105f35a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseUiBrain
-  m_resumeButton: {fileID: 5943724420828090198}
-  m_restartButton: {fileID: 2027857254595065347}
-  m_toMenuButton: {fileID: 7712802926207324961}
 --- !u!1 &7712802926207324961
 GameObject:
   m_ObjectHideFlags: 0

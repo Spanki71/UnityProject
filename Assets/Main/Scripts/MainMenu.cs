@@ -6,14 +6,12 @@ namespace Main.Scripts
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField]
-        private TMP_Text m_scoreText;
-        [SerializeField]
-        private GameObject m_clearButton;
-        [SerializeField]
-        private GameObject m_scorePanel;
-        public event Action OnQuitGame;
-        public event Action OnStartGame;
+        public event Action onQuitGame;
+        public event Action onStartGame;
+        
+        [SerializeField] private TMP_Text m_scoreText;
+        [SerializeField] private GameObject m_clearButton;
+        [SerializeField] private GameObject m_scorePanel;
 
         public void UpdateScore()
         {
@@ -36,11 +34,11 @@ namespace Main.Scripts
 
         public void Quit()
         {
-            OnQuitGame?.Invoke();
+            onQuitGame?.Invoke();
         }
         public void StartGame()
         {
-            OnStartGame?.Invoke();
+            onStartGame?.Invoke();
         }
 
         public void ClearScore()
@@ -50,6 +48,11 @@ namespace Main.Scripts
             PlayerPrefs.SetInt("WavesScore", 0);
             m_clearButton.SetActive(false);
             
+        }
+
+        public void Start()
+        {
+            UpdateScore();
         }
     }
 }
