@@ -49,5 +49,10 @@ namespace Main.Scripts
             m_clearButton.SetActive(false);
             
         }
+
+        public void Start()
+        {
+            UpdateScore();
+        }
     }
 }

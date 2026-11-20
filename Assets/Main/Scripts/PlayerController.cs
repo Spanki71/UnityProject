@@ -75,7 +75,6 @@ namespace Main.Scripts
 
         private void Start()
         {
-            input.enabled = true;
         }
         
         public void OnAttack()

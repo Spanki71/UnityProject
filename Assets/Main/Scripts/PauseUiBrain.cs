@@ -11,7 +11,6 @@ namespace Main.Scripts
         
         public void Resume()
         {
-            Debug.Log("Resuming");
             onResume?.Invoke();
         }
 

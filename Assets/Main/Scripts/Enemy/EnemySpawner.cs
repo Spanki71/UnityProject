@@ -12,10 +12,10 @@ namespace Main.Scripts.Enemy
         public event Action onWaveEndToUpdateScore;
         
         public GameObject target;
-        public bool canSpawn = false;
+        private bool m_canSpawn = false;
         
         [SerializeField] public float waveTime = 10.0f;
-        [SerializeField] public float m_startWaveTime = 60.0f;
+        [SerializeField] public float m_startWaveTime = 65.0f;
         [SerializeField] public float m_visibleTime = 5.0f;
         
         [SerializeField] private List<Transform> m_spawnPoints =  new List<Transform>(3);
@@ -62,6 +62,16 @@ namespace Main.Scripts.Enemy
             onWaveEndToUpdateScore?.Invoke();
         }
         
+        public void SetCanSpawn(bool canSpawn)
+        {
+            m_canSpawn = canSpawn;
+        }
+        
+        public bool GetCanSpawn()
+        {
+            return m_canSpawn;
+        }
+        
         void Start()
         {
             m_time = Time.time;
@@ -72,7 +82,7 @@ namespace Main.Scripts.Enemy
         
         void Update()
         {
-            if (Time.time - m_time > waveTime && canSpawn)
+            if (Time.time - m_time > waveTime && m_canSpawn)
             {
                 GameObject polledEnemy = m_pool.Get();
                 m_time = Time.time;

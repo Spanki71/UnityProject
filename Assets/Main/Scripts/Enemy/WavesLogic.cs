@@ -12,6 +12,7 @@ namespace Main.Scripts.Enemy
         public GameObject waveInfo;
         public TMP_Text waveText;
         public float timeUpper = 5.0f;
+        public bool playMode = false;
         
         private EnemySpawner m_spawner;
         private CancellationTokenSource m_cts =  new CancellationTokenSource();
@@ -31,26 +32,34 @@ namespace Main.Scripts.Enemy
         
         public async void StartWaveAsync(float timeWaitStart, float visibleTime, float waveTime)
         {
+            if (!playMode) return;
             float time = Time.time;
             await Awaitable.WaitForSecondsAsync(timeWaitStart, m_cts.Token);
+            
+            if (!playMode) return;
+            
             Debug.Log(Time.time - time);
             waveText.text = $"Начинается {m_currentWave} волна";
             waveInfo.SetActive(true);
-            m_spawner.canSpawn = true;
+            m_spawner.SetCanSpawn(true);
 
             await Awaitable.WaitForSecondsAsync(visibleTime, m_cts.Token);
+            if (!playMode) return;
             waveInfo.SetActive(false);
             
             await Awaitable.WaitForSecondsAsync(waveTime, m_cts.Token);
-            m_spawner.canSpawn = false;
+            if (!playMode) return;
+            m_spawner.SetCanSpawn(false);
         }
 
         public async void StopWaveAsync(float waveTime)
         {
+            if (!playMode) return;
             waveText.text = $"Вы продержались {m_currentWave} волну";
             waveInfo.SetActive(true);
             
             await Awaitable.WaitForSecondsAsync(m_visibleTime, m_cts.Token);
+            if (!playMode) return;
             waveInfo.SetActive(false);
 
             m_currentWave++;
@@ -61,7 +70,7 @@ namespace Main.Scripts.Enemy
         
         public void CheckEndOfWave()
         {
-            if ( m_spawner.GetActiveEnemyies() <= 0 && !m_spawner.canSpawn)
+            if ( m_spawner.GetActiveEnemyies() <= 0 && !m_spawner.GetCanSpawn())
             {
                 m_waveTime += timeUpper;
                 StopWaveAsync(m_waveTime);

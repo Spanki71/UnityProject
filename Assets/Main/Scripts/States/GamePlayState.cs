@@ -1,17 +1,20 @@
+using System;
 using System.Collections.Generic;
 using Main.Scripts.Enemy;
 using Main.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Main.Scripts.States
 {
     public class GamePlayState : IGameState
     {
-        public GameObject m_directorGo;
-        public PlayableDirector m_director;
+        public GameObject m_directorPrefab;
         
+        private GameObject m_directorGo;
+        private PlayableDirector m_director;
         private StateMachine m_stateMachine;
         private GameObject m_player;
         private PlayerController m_playerController;
@@ -44,7 +47,7 @@ namespace Main.Scripts.States
             m_gamePlayUI = gamePlayUI;
             m_pauseMenu = pauseMenu;
             m_wavesLogic = wavesLogic;
-            m_directorGo = director;
+            m_directorPrefab = director;
         }
 
         public void OnEnter()
@@ -55,6 +58,7 @@ namespace Main.Scripts.States
             
             m_wavesLogic.waveInfo = m_gameUIBrain.wavesInfo;
             m_wavesLogic.waveText = m_gameUIBrain.wavesText;
+            m_wavesLogic.playMode = true;
             m_gameUIBrain.onPause += OnPauseHandler;
             m_pauseBrain.onResume += OnResumeHandler;
             m_pauseBrain.onRestart += OnRestartHandler;
@@ -67,26 +71,24 @@ namespace Main.Scripts.States
 
         public void OnExit()
         {
-            m_wavesLogic.waveInfo = null;
-            m_wavesLogic.waveText = null;
-            
-            m_playerController.SetInputEnabled(false);
-            
-            m_playerController.onDeath -= OnGameOverHandler;
-            m_gameUIBrain.onPause -= OnPauseHandler;
-            m_pauseBrain.onResume -= OnResumeHandler;
-            m_pauseBrain.onRestart -= OnRestartHandler;
-            m_pauseBrain.onToMenu -= OnToMenuHandler;
-            m_enemySpawner.onEnemyDieUpdateScore -= OnUpdateScoreHandler;
-            m_enemySpawner.onWaveEndToUpdateScore -= OnUpdateOnWaveHandler;
-            m_targetBrain.onGetDamage -= OnSetGamePlayUIInfoHandler;
-            
+            try
+            {
+                ResetLevel();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
         
         private void OnSceneLoadedHandler(Scene scene, LoadSceneMode sceneMode)
         {
+            if (SceneManager.GetActiveScene().name != "MainScene")
+            {
+                return;
+            }
+
             SceneManager.sceneLoaded -= OnSceneLoadedHandler;
-            m_spawners.Clear();
             foreach (var obj in m_mainLevelObjectsToSpawn.transforms)
             {
                 GameObject temp = Object.Instantiate(obj.gameObject, obj.position, obj.rotation);
@@ -112,6 +114,7 @@ namespace Main.Scripts.States
                         m_enemySpawnerGo = temp;
                         m_enemySpawner = temp.GetComponent<EnemySpawner>();
                         m_enemySpawner.SetWaveLogic(m_wavesLogic);
+                        m_wavesLogic.SetEnemySpawner(m_enemySpawner);
                     }
 
                     if (temp.CompareTag("Target"))
@@ -133,7 +136,7 @@ namespace Main.Scripts.States
             m_enemySpawner.onEnemyDieUpdateScore += OnUpdateScoreHandler;
             m_enemySpawner.onWaveEndToUpdateScore += OnUpdateOnWaveHandler;
 
-            m_directorGo = Object.Instantiate(m_directorGo);
+            m_directorGo = Object.Instantiate(m_directorPrefab);
             m_director = m_directorGo.GetComponent<PlayableDirector>();
             if (m_director == null || m_director.playableAsset == null)
             {
@@ -155,7 +158,6 @@ namespace Main.Scripts.States
             
             foreach (var spawner in m_spawners)
             {
-                Debug.Log(spawner);
                 spawner.SetActive(false);
             }
         }
@@ -217,8 +219,28 @@ namespace Main.Scripts.States
 
         private void ResetLevel()
         {
+            m_playerController.onDeath -= OnGameOverHandler;
+            m_gameUIBrain.onPause -= OnPauseHandler;
+            m_pauseBrain.onResume -= OnResumeHandler;
+            m_pauseBrain.onRestart -= OnRestartHandler;
+            m_pauseBrain.onToMenu -= OnToMenuHandler;
+            m_enemySpawner.onEnemyDieUpdateScore -= OnUpdateScoreHandler;
+            m_enemySpawner.onWaveEndToUpdateScore -= OnUpdateOnWaveHandler;
+            m_targetBrain.onGetDamage -= OnSetGamePlayUIInfoHandler;
+            
+            m_wavesLogic.playMode = false;
+            m_wavesLogic.waveInfo = null;
+            m_wavesLogic.waveText = null;
+            
+            m_spawners.Clear();
+            m_enemySpawnerGo = null;
+            m_enemySpawner = null;
+            
             m_targetBrain.Reset();
+            m_target = null;
+            m_targetBrain = null;
             m_score.Reset();
+            m_playerController.SetInputEnabled(false);
         }
 
         private void OnDirectorStoppedHandler(PlayableDirector director)
