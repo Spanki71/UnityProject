@@ -26,8 +26,8 @@ namespace Main.Scripts.States
             
             m_mainMenu.UpdateScore();
             m_mainMenuCanvas.SetActive(true);
-            m_mainMenu.onQuitGame += MainMenuOnQuitGame;
-            m_mainMenu.onStartGame += MainMenuOnStartGame;
+            m_mainMenu.onQuitGame += OnQuitGameHandler;
+            m_mainMenu.onStartGame += OnStartGameHandler;
 
             m_mainMenu.onQuitGame += m_stateMachine.Leave;
         }
@@ -35,18 +35,18 @@ namespace Main.Scripts.States
         public void OnExit()
         {
             m_mainMenuCanvas.SetActive(false);
-            m_mainMenu.onQuitGame -= MainMenuOnQuitGame;
-            m_mainMenu.onStartGame -= MainMenuOnStartGame;
+            m_mainMenu.onQuitGame -= OnQuitGameHandler;
+            m_mainMenu.onStartGame -= OnStartGameHandler;
             
             m_mainMenu.onQuitGame -= m_stateMachine.Leave;
         }
         
-        private void MainMenuOnStartGame()
+        private void OnStartGameHandler()
         {
             m_stateMachine.ChangeState<GamePlayState>();
         }
 
-        private void MainMenuOnQuitGame()
+        private void OnQuitGameHandler()
         {
             Application.Quit();
         }

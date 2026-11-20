@@ -31,7 +31,9 @@ namespace Main.Scripts.Enemy
         
         public async void StartWaveAsync(float timeWaitStart, float visibleTime, float waveTime)
         {
+            float time = Time.time;
             await Awaitable.WaitForSecondsAsync(timeWaitStart, m_cts.Token);
+            Debug.Log(Time.time - time);
             waveText.text = $"Начинается {m_currentWave} волна";
             waveInfo.SetActive(true);
             m_spawner.canSpawn = true;

@@ -13,6 +13,7 @@ namespace Main.Scripts
         public float speed;
         
         [SerializeField] public float jumpForce;
+        [SerializeField] public GameObject cameraGo;
         [SerializeField] public Camera cam;
         [SerializeField] private float baseSpeed = 15;
         [SerializeField] private Transform cameraPivot;

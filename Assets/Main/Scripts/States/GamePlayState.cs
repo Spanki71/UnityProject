@@ -2,14 +2,17 @@ using System.Collections.Generic;
 using Main.Scripts.Enemy;
 using Main.Scripts.Interfaces;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 namespace Main.Scripts.States
 {
     public class GamePlayState : IGameState
     {
-        private StateMachine m_stateMachine;
+        public GameObject m_directorGo;
+        public PlayableDirector m_director;
         
+        private StateMachine m_stateMachine;
         private GameObject m_player;
         private PlayerController m_playerController;
         private ObjectsToSpawn m_mainLevelObjectsToSpawn;
@@ -19,7 +22,6 @@ namespace Main.Scripts.States
         private GameObject m_target;
         private TargetBrain  m_targetBrain;
         private Score m_score;
-
         private GameObject m_gamePlayUI;
         private GamePlayUIBrain m_gameUIBrain;
         private GameObject m_pauseMenu;
@@ -32,7 +34,8 @@ namespace Main.Scripts.States
             Score score,
             GameObject gamePlayUI,
             GameObject pauseMenu,
-            WavesLogic wavesLogic
+            WavesLogic wavesLogic,
+            GameObject director
             )
         {
             m_stateMachine =  stateMachine;
@@ -41,17 +44,18 @@ namespace Main.Scripts.States
             m_gamePlayUI = gamePlayUI;
             m_pauseMenu = pauseMenu;
             m_wavesLogic = wavesLogic;
+            m_directorGo = director;
         }
 
         public void OnEnter()
         {
             m_gameUIBrain = m_gamePlayUI.GetComponent<GamePlayUIBrain>();
             m_pauseBrain = m_pauseMenu.GetComponent<PauseUiBrain>();
+            
             m_wavesLogic.waveInfo = m_gameUIBrain.wavesInfo;
             m_wavesLogic.waveText = m_gameUIBrain.wavesText;
-            m_gamePlayUI.SetActive(true);
+            m_gamePlayUI.SetActive(false);
             m_gameUIBrain.onPause += OnPauseHandler;
-
             m_pauseBrain.onResume += OnResumeHandler;
             m_pauseBrain.onRestart += OnRestartHandler;
             m_pauseBrain.onToMenu += OnToMenuHandler;
@@ -128,6 +132,15 @@ namespace Main.Scripts.States
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
             m_enemySpawner.onEnemyDieUpdateScore += OnUpdateScoreHandler;
             m_enemySpawner.onWaveEndToUpdateScore += OnUpdateOnWaveHandler;
+            
+            m_director = Object.Instantiate(m_directorGo).GetComponent<PlayableDirector>();
+            if (m_director == null || m_director.playableAsset == null)
+            {
+                Debug.LogError("В префабе катсцены нет PlayableDirector или TimelineAsset!");
+                return;
+            }
+            m_director.Play();
+            m_director.stopped += OnDirectorStoppedHandler;
         }
 
         private void OnPauseHandler()
@@ -205,6 +218,16 @@ namespace Main.Scripts.States
         {
             m_targetBrain.Reset();
             m_score.Reset();
+        }
+
+        private void OnDirectorStoppedHandler(PlayableDirector director)
+        {
+            m_playerController.SetInputEnabled(true);
+            m_gamePlayUI.SetActive(true);
+            m_director.Stop();
+            m_playerController.cameraGo.SetActive(true);
+            m_gamePlayUI.SetActive(true);
+            m_director.stopped -= OnDirectorStoppedHandler;
         }
     }
 }

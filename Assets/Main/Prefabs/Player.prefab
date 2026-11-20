@@ -597,11 +597,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74d8d7569085d045975f0fbbb4bc25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.PlayerController
+  variableJoystick: {fileID: 0}
+  speed: 15
+  jumpForce: 20
+  cameraGo: {fileID: 8013596791907629285}
   cam: {fileID: 2693919517777307614}
   baseSpeed: 15
   cameraPivot: {fileID: 1981866887976916081}
-  jumpForce: 20
-  speed: 15
 --- !u!4 &5537677321503023027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}

@@ -1,6 +1,7 @@
 using Main.Scripts.Enemy;
 using Main.Scripts.Interfaces;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace Main.Scripts.States
 {
@@ -15,6 +16,9 @@ namespace Main.Scripts.States
         [SerializeField] private GameObject m_gamePlayUI;
         [SerializeField] private GameObject m_pauseMenu;
         [SerializeField] private GameObject m_gameOverCanvas;
+        
+        [Header("Cutscene")]
+        [SerializeField] private GameObject m_director;
         
         private IGameState m_currentState;
         private StateMachine m_stateMachine;
@@ -47,6 +51,7 @@ namespace Main.Scripts.States
             m_gameOverCanvas = GameObject.Instantiate(m_gameOverCanvas);
             m_gamePlayUI = GameObject.Instantiate(m_gamePlayUI);
             m_pauseMenu = GameObject.Instantiate(m_pauseMenu);
+
             
             m_mainMenu.SetActive(false);
             m_gameOverCanvas.SetActive(false);
@@ -60,7 +65,8 @@ namespace Main.Scripts.States
                 m_score,
                 m_gamePlayUI,
                 m_pauseMenu,
-                m_wavesLogic));
+                m_wavesLogic,
+                m_director));
             m_stateMachine.Register(new GameOverState(m_stateMachine, m_gameOverCanvas, m_score));
 
             m_stateMachine.onLeaveGame += OnLeaveGameHandler;
