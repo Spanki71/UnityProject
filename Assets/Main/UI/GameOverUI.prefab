@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.GameOverLogic
   m_scoreText: {fileID: 4787193937364398212}
-  m_gameOverSound: {fileID: 8300000, guid: b5d6653595b303a4cb2d834a511358a6, type: 3}
+  m_gameOverSound: {fileID: 8300000, guid: cc586151191d5324a92b471d3015f9cc, type: 3}
 --- !u!1001 &4953932452699809260
 PrefabInstance:
   m_ObjectHideFlags: 0

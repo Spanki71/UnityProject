@@ -154,6 +154,8 @@ MonoBehaviour:
   m_pauseMenu: {fileID: 6191092274827343397, guid: f769be5ab4c94c54eae27725f68f404f, type: 3}
   m_gameOverCanvas: {fileID: 8213495311635148561, guid: e73f82ee5ba1b8d42841f714748451bd, type: 3}
   m_director: {fileID: 4241022622657113850, guid: 42ba1d2ea72df054dbe4c5fd6fc0aa40, type: 3}
+  m_backSound: {fileID: 8215148223160159242, guid: 2c4105982bc7553428d2dea987fef104, type: 3}
+  m_gameOverSound: {fileID: 8300000, guid: cc586151191d5324a92b471d3015f9cc, type: 3}
 --- !u!4 &25596783
 Transform:
   m_ObjectHideFlags: 0
@@ -1232,13 +1234,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849546716}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.057719868, y: -0.38399675, z: 0.024059797, w: 0.92121446}
-  m_LocalPosition: {x: 6.5, y: 3.7, z: 83.9}
+  m_LocalRotation: {x: 0.060390532, y: -0.259046, z: 0.016230855, w: 0.9638385}
+  m_LocalPosition: {x: 8.12, y: 4.38, z: 81.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 7.171, y: -45.256, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.171, y: -30.087, z: 0}
 --- !u!114 &849546720
 MonoBehaviour:
   m_ObjectHideFlags: 0

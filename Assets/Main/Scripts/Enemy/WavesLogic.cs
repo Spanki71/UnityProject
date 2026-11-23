@@ -17,28 +17,18 @@ namespace Main.Scripts.Enemy
         private EnemySpawner m_spawner;
         private CancellationTokenSource m_cts =  new CancellationTokenSource();
         private int m_currentWave = 1;
-        private float m_interval;
-        private float m_waveTime;
+        private float m_waveTime = 5.0f;
         private float m_visibleTime;
-        private float m_endTime;
 
         public void SetEnemySpawner(EnemySpawner  enemySpawner)
         {
             m_spawner = enemySpawner;
-            m_interval = m_spawner.waveTime;
             m_visibleTime = m_spawner.m_visibleTime;
-            m_waveTime = m_spawner.m_startWaveTime;
         }
         
-        public async void StartWaveAsync(float timeWaitStart, float visibleTime, float waveTime)
+        public async void StartWaveAsync(float visibleTime)
         {
             if (!playMode) return;
-            float time = Time.time;
-            await Awaitable.WaitForSecondsAsync(timeWaitStart, m_cts.Token);
-            
-            if (!playMode) return;
-            
-            Debug.Log(Time.time - time);
             waveText.text = $"Начинается {m_currentWave} волна";
             waveInfo.SetActive(true);
             m_spawner.SetCanSpawn(true);
@@ -47,7 +37,7 @@ namespace Main.Scripts.Enemy
             if (!playMode) return;
             waveInfo.SetActive(false);
             
-            await Awaitable.WaitForSecondsAsync(waveTime, m_cts.Token);
+            await Awaitable.WaitForSecondsAsync(m_waveTime, m_cts.Token);
             if (!playMode) return;
             m_spawner.SetCanSpawn(false);
         }
@@ -64,8 +54,8 @@ namespace Main.Scripts.Enemy
 
             m_currentWave++;
             onWaveEnd?.Invoke();
-            m_endTime = Time.time + waveTime;
-            StartWaveAsync(m_interval, m_visibleTime, m_waveTime);
+            m_waveTime += 5.0f;
+            StartWaveAsync(m_visibleTime);
         }
         
         public void CheckEndOfWave()

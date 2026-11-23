@@ -19,6 +19,11 @@ namespace Main.Scripts.States
         [Header("Cutscene")]
         [SerializeField] private GameObject m_director;
         
+        [Header("Sound")]
+        [SerializeField] private GameObject m_backSound;
+
+        [SerializeField] private AudioClip m_gameOverSound;
+        
         private IGameState m_currentState;
         private StateMachine m_stateMachine;
 
@@ -50,7 +55,7 @@ namespace Main.Scripts.States
             m_gameOverCanvas = GameObject.Instantiate(m_gameOverCanvas);
             m_gamePlayUI = GameObject.Instantiate(m_gamePlayUI);
             m_pauseMenu = GameObject.Instantiate(m_pauseMenu);
-
+            m_backSound = GameObject.Instantiate(m_backSound);
             
             m_mainMenu.SetActive(false);
             m_gameOverCanvas.SetActive(false);
@@ -65,7 +70,8 @@ namespace Main.Scripts.States
                 m_gamePlayUI,
                 m_pauseMenu,
                 m_wavesLogic,
-                m_director));
+                m_director,
+                m_gameOverSound));
             m_stateMachine.Register(new GameOverState(m_stateMachine, m_gameOverCanvas, m_score));
 
             m_stateMachine.onLeaveGame += OnLeaveGameHandler;
@@ -77,6 +83,7 @@ namespace Main.Scripts.States
             DontDestroyOnLoad(m_gameOverCanvas);
             DontDestroyOnLoad(m_gamePlayUI);
             DontDestroyOnLoad(m_pauseMenu);
+            DontDestroyOnLoad(m_backSound);
         }
     }
 }

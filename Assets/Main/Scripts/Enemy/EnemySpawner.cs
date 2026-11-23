@@ -15,10 +15,9 @@ namespace Main.Scripts.Enemy
         public GameObject target;
         private bool m_canSpawn = false;
         
-        [SerializeField] public float waveTime = 10.0f;
-        [SerializeField] public float m_startWaveTime = 65.0f;
-        [SerializeField] public float m_visibleTime = 5.0f;
+        [SerializeField] private float m_waveTime = 10.0f;
         
+        [SerializeField] public float m_visibleTime = 5.0f;
         [SerializeField] private List<Transform> m_spawnPoints =  new List<Transform>(3);
         [SerializeField] private List<GameObject> m_prefabs;
         
@@ -71,7 +70,7 @@ namespace Main.Scripts.Enemy
 
         public void OnWaveStartHandler(PlayableDirector playableDirector)
         {
-            m_wavesLogic.StartWaveAsync(0.0f,5.0f, m_startWaveTime);
+            m_wavesLogic.StartWaveAsync(5.0f);
         }
 
         public void SetCanSpawn(bool canSpawn)
@@ -93,7 +92,7 @@ namespace Main.Scripts.Enemy
         
         void Update()
         {
-            if (Time.time - m_time > waveTime && m_canSpawn)
+            if (Time.time - m_time > m_waveTime && m_canSpawn)
             {
                 GameObject polledEnemy = m_pool.Get();
                 m_time = Time.time;

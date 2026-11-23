@@ -6,7 +6,6 @@ namespace Main.Scripts
 {
     public class PlayerController :  MonoBehaviour
     {
-        public event Action onDeath;
         private const int Mass = 20;
         
         public VariableJoystick variableJoystick;
@@ -39,11 +38,6 @@ namespace Main.Scripts
             Vector3 right = cam.transform.right;
             right.y = 0;
             return right;
-        }
-
-        private void OnDead()
-        {
-            onDeath?.Invoke();
         }
 
         public void SetInputEnabled(bool value)

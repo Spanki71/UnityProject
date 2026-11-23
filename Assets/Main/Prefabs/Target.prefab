@@ -67,7 +67,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetBrain
   health: 100
-  damageToTarget: 10
+  damageToTarget: 100
+  m_maxHealth: 100
 --- !u!1001 &3677642499752931574
 PrefabInstance:
   m_ObjectHideFlags: 0

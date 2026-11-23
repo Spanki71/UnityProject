@@ -1282,6 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Main.Scripts.Enemy.EnemyBrain
   spawner: {fileID: 0}
+  m_dieSound: {fileID: 8300000, guid: 8464bbfde16268441b3445b7527744ba, type: 3}
   m_animator: {fileID: 1118881133962216337}
   m_rb: {fileID: 5131507974949669126}
   m_speed: 4

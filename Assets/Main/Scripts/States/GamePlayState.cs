@@ -30,6 +30,7 @@ namespace Main.Scripts.States
         private GameObject m_pauseMenu;
         private PauseUiBrain m_pauseBrain;
         private WavesLogic m_wavesLogic;
+        private AudioClip m_gameOverSound;
         
         public GamePlayState(
             StateMachine stateMachine,
@@ -38,7 +39,8 @@ namespace Main.Scripts.States
             GameObject gamePlayUI,
             GameObject pauseMenu,
             WavesLogic wavesLogic,
-            GameObject director
+            GameObject director,
+            AudioClip gameOverSound
             )
         {
             m_stateMachine =  stateMachine;
@@ -48,6 +50,7 @@ namespace Main.Scripts.States
             m_pauseMenu = pauseMenu;
             m_wavesLogic = wavesLogic;
             m_directorPrefab = director;
+            m_gameOverSound = gameOverSound;
         }
 
         public void OnEnter()
@@ -98,7 +101,6 @@ namespace Main.Scripts.States
                     {
                         m_player = temp;
                         m_playerController = m_player.GetComponent<PlayerController>();
-                        m_playerController.onDeath += OnGameOverHandler;
                         m_playerController.SetInputEnabled(false);
                         m_playerController.cam.enabled = false;
                         m_playerController.variableJoystick = m_gameUIBrain.m_variableJoystick;
@@ -182,6 +184,7 @@ namespace Main.Scripts.States
             Time.timeScale = 1;
             m_playerController.SetInputEnabled(false);
             m_pauseMenu.SetActive(false);
+            m_score.Reset();
             ResetLevel();
             m_stateMachine.ChangeState<GamePlayState>();
         }
@@ -197,7 +200,7 @@ namespace Main.Scripts.States
 
         private void OnGameOverHandler()
         {
-            m_target.GetComponentInChildren<TargetBrain>().onGameOver -= OnGameOverHandler;
+            AudioSource.PlayClipAtPoint(m_gameOverSound, m_player.transform.position);
             m_stateMachine.ChangeState<GameOverState>();
         }
         
@@ -214,7 +217,8 @@ namespace Main.Scripts.States
 
         private void ResetLevel()
         {
-            m_playerController.onDeath -= OnGameOverHandler;
+            m_target.GetComponentInChildren<TargetBrain>().onGameOver -= OnGameOverHandler;
+            
             m_gameUIBrain.onPause -= OnPauseHandler;
             m_pauseBrain.onResume -= OnResumeHandler;
             m_pauseBrain.onRestart -= OnRestartHandler;
@@ -230,7 +234,6 @@ namespace Main.Scripts.States
             
             m_target = null;
             m_targetBrain = null;
-            m_score.Reset();
             m_playerController.SetInputEnabled(false);
             m_gamePlayUI.SetActive(false);
         }

@@ -16,13 +16,14 @@ namespace Main.Scripts.States
             m_stateMachine =  stateMachine;
             m_canvas =  canvas;
             m_score = score;
-            m_gameOverLogic = m_canvas.GetComponent<GameOverLogic>();
         }
 
         public void OnEnter()
         {
-            m_gameOverLogic.PlayGameOverSound();
+            
+            
             m_canvas.SetActive(true);
+            m_gameOverLogic = m_canvas.GetComponent<GameOverLogic>();
             m_gameOverLogic.onLeave += OnLeaveHandler;
             m_gameOverLogic.SetScoreOnUI(m_score);
             
@@ -51,8 +52,8 @@ namespace Main.Scripts.States
 
         public void OnExit()
         {
-            m_canvas.SetActive(false);
             m_gameOverLogic.onLeave -= OnLeaveHandler;
+            m_canvas.SetActive(false);
         }
 
         public void OnLeaveHandler()

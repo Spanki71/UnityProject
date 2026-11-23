@@ -23,6 +23,7 @@ namespace Main.Scripts
                 m_scoreText.text = $"Лучшее время выживания: {time}\nНаибольшее количество сбитых противников: {count}" +
                                    $"\nМаксимум волн прожито: {waves}";
                 m_clearButton.SetActive(true);
+                m_clearButton.SetActive(false);
             }
             else
             {
@@ -47,7 +48,7 @@ namespace Main.Scripts
             PlayerPrefs.SetInt("EnemyCountScore", 0);
             PlayerPrefs.SetInt("WavesScore", 0);
             m_clearButton.SetActive(false);
-            
+            m_scorePanel.SetActive(false);
         }
 
         public void Start()

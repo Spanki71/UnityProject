@@ -10,7 +10,8 @@ namespace Main.Scripts.Enemy
         public event Action onEnemyDieTarget;
         
         public EnemySpawner spawner;
-        
+
+        [SerializeField] private AudioClip m_dieSound;
         [SerializeField] private Animator m_animator;
         [SerializeField] private Rigidbody m_rb;
         [SerializeField] private float m_speed = 2.0f;
@@ -58,6 +59,7 @@ namespace Main.Scripts.Enemy
                     m_animator.SetTrigger("Die");
                     m_speed = 0;
                     Invoke("GoPull", 2f);
+                    AudioSource.PlayClipAtPoint(m_dieSound, transform.position);
                 }
             }
 
