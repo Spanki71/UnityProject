@@ -67,6 +67,7 @@ namespace Main.Scripts.States
             SceneManager.sceneLoaded += OnSceneLoadedHandler;
             SceneManager.LoadScene("Main/MainScene");
             m_score.SetStartTime(Time.time);
+            m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
         }
 
         public void OnExit()
@@ -122,7 +123,6 @@ namespace Main.Scripts.States
                         m_target = temp;
                         m_targetBrain = m_target.GetComponentInChildren<TargetBrain>();
                         m_targetBrain.onGetDamage += OnSetGamePlayUIInfoHandler;
-                        m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
                     }
                 }
                 catch
@@ -145,6 +145,7 @@ namespace Main.Scripts.States
             }
             m_director.Play();
             m_director.stopped += OnDirectorStoppedHandler;
+            m_director.stopped += m_enemySpawner.OnWaveStartHandler;
         }
 
         private void OnPauseHandler()
@@ -241,12 +242,16 @@ namespace Main.Scripts.States
             m_targetBrain = null;
             m_score.Reset();
             m_playerController.SetInputEnabled(false);
+
+            m_targetBrain.health = m_targetBrain.GetMaxHealth();
+            m_gameUIBrain.SetTargetHp(m_targetBrain.health);
         }
 
         private void OnDirectorStoppedHandler(PlayableDirector director)
         {
             m_playerController.SetInputEnabled(true);
             m_gamePlayUI.SetActive(true);
+            m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
             m_director.stopped -= OnDirectorStoppedHandler;
             m_directorGo.SetActive(false);
         }

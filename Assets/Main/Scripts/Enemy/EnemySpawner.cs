@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
@@ -61,7 +62,12 @@ namespace Main.Scripts.Enemy
         {
             onWaveEndToUpdateScore?.Invoke();
         }
-        
+
+        public void OnWaveStartHandler(PlayableDirector playableDirector)
+        {
+            m_wavesLogic.StartWaveAsync(0.0f,5.0f, m_startWaveTime);
+        }
+
         public void SetCanSpawn(bool canSpawn)
         {
             m_canSpawn = canSpawn;
@@ -76,7 +82,6 @@ namespace Main.Scripts.Enemy
         {
             m_time = Time.time;
             m_wavesLogic.SetEnemySpawner(this);
-            m_wavesLogic.StartWaveAsync(m_startWaveTime,m_visibleTime, waveTime);
             m_wavesLogic.onWaveEnd += OnWaveEndHandler;
         }
         
@@ -104,6 +109,7 @@ namespace Main.Scripts.Enemy
             EnemyBrain brain = obj.GetComponent<EnemyBrain>();
             brain.onEnemyDie += OnEnemyDieHandler;
             brain.OnGet(m_spawnPoints[pos]);
+            brain.SetSpeed(2.0f);
             m_activeEnemyies++;
         }
 

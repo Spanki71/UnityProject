@@ -47,13 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74ddaff855c047458b57cd0dbde6082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  wateTime: 5
+  target: {fileID: 0}
+  waveTime: 10
+  m_startWaveTime: 65
+  m_visibleTime: 5
   m_spawnPoints:
   - {fileID: 626574554352555358}
   - {fileID: 4230327680361400305}
   - {fileID: 356904831557741165}
-  m_prefab: {fileID: 7884340084431090685, guid: 2f8acd1868d6a4948989ee16b1092dd3, type: 3}
-  target: {fileID: 0}
+  m_prefab: {fileID: 6660184903045082040, guid: d427e9eecc2c63545a0874718c162db2, type: 3}
 --- !u!1 &4946240527100132539
 GameObject:
   m_ObjectHideFlags: 0

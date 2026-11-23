@@ -16,7 +16,12 @@ namespace Main.Scripts.Enemy
         
         private Transform m_target;
         private ObjectPool<GameObject> m_pool;
-    
+
+        public void SetSpeed(float speed)
+        {
+            m_speed = speed;
+        }
+
         public void SetPull(ObjectPool<GameObject> pool)
         {
             this.m_pool = pool;
