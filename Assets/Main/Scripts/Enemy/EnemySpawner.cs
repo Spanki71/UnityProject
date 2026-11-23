@@ -20,7 +20,7 @@ namespace Main.Scripts.Enemy
         [SerializeField] public float m_visibleTime = 5.0f;
         
         [SerializeField] private List<Transform> m_spawnPoints =  new List<Transform>(3);
-        [SerializeField] private GameObject m_prefab;
+        [SerializeField] private List<GameObject> m_prefabs;
         
         private float m_time;
         private ObjectPool<GameObject> m_pool;
@@ -51,9 +51,15 @@ namespace Main.Scripts.Enemy
             return m_activeEnemyies;
         }
 
-        public void OnEnemyDieHandler()
+        public void OnEnemyStoneDieHandler()
         {
             onEnemyDieUpdateScore?.Invoke();
+            m_activeEnemyies--;
+            m_wavesLogic.CheckEndOfWave();
+        }
+        
+        public void OnEnemyTargetDieHandler()
+        {
             m_activeEnemyies--;
             m_wavesLogic.CheckEndOfWave();
         }
@@ -96,7 +102,7 @@ namespace Main.Scripts.Enemy
         
         private GameObject Spawn()
         {
-            var obj = Instantiate(m_prefab);
+            var obj = Instantiate(m_prefabs[Random.Range(0, m_prefabs.Count)]);
             obj.GetComponent<EnemyBrain>().SetPull(m_pool);
             obj.GetComponent<EnemyBrain>().spawner = this;
             return obj;
@@ -107,7 +113,8 @@ namespace Main.Scripts.Enemy
             obj.SetActive(true);
             int pos = Random.Range(0, m_spawnPoints.Count);
             EnemyBrain brain = obj.GetComponent<EnemyBrain>();
-            brain.onEnemyDie += OnEnemyDieHandler;
+            brain.onEnemyDie += OnEnemyStoneDieHandler;
+            brain.onEnemyDieTarget += OnEnemyTargetDieHandler;
             brain.OnGet(m_spawnPoints[pos]);
             brain.SetSpeed(2.0f);
             m_activeEnemyies++;
@@ -116,7 +123,7 @@ namespace Main.Scripts.Enemy
         private void OnRelease(GameObject obj)
         {
             EnemyBrain brain = obj.GetComponent<EnemyBrain>();
-            brain.onEnemyDie -= OnEnemyDieHandler;
+            brain.onEnemyDie -= OnEnemyStoneDieHandler;
             brain.ResetForPull();
             obj.SetActive(false);
         }

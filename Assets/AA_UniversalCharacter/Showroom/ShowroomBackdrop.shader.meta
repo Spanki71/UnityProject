@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b1f26ae51de6ae5439ba6625339a7652
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 199781
+  packageName: LOWPOLY - Universal Character (Modular)
+  packageVersion: 2.0
+  assetPath: Assets/AA_UniversalCharacter/Showroom/ShowroomBackdrop.shader
+  uploadId: 1046162

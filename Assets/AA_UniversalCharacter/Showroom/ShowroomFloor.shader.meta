@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3f6ce6dba935c354986d4097371665b3
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 199781
+  packageName: LOWPOLY - Universal Character (Modular)
+  packageVersion: 2.0
+  assetPath: Assets/AA_UniversalCharacter/Showroom/ShowroomFloor.shader
+  uploadId: 1046162

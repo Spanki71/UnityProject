@@ -55,7 +55,9 @@ MonoBehaviour:
   - {fileID: 626574554352555358}
   - {fileID: 4230327680361400305}
   - {fileID: 356904831557741165}
-  m_prefab: {fileID: 6660184903045082040, guid: d427e9eecc2c63545a0874718c162db2, type: 3}
+  m_prefabs:
+  - {fileID: 5921367157248738129, guid: cf1ff5beaf9b18d4c8cced8f99719e7e, type: 3}
+  - {fileID: 6660184903045082040, guid: d427e9eecc2c63545a0874718c162db2, type: 3}
 --- !u!1 &4946240527100132539
 GameObject:
   m_ObjectHideFlags: 0

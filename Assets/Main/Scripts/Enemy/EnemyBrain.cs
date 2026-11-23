@@ -7,6 +7,7 @@ namespace Main.Scripts.Enemy
     public class EnemyBrain : MonoBehaviour
     {
         public event Action onEnemyDie;
+        public event Action onEnemyDieTarget;
         
         public EnemySpawner spawner;
         
@@ -62,7 +63,7 @@ namespace Main.Scripts.Enemy
 
             if (collision.gameObject.CompareTag("Target"))
             {
-                onEnemyDie?.Invoke();
+                onEnemyDieTarget?.Invoke();
                 GoPull();
             } 
         }

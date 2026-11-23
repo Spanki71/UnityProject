@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainMenuObjectsToSpawn
   m_EditorClassIdentifier: Assembly-CSharp::ObjectsToSpawn
   transforms:
-  - gameObject: {fileID: 5157211476466648329, guid: c5b5cdb77d0a56945ac167d3c36a929f, type: 3}
+  - gameObject: {fileID: 1429419887474910, guid: 5927559469e6c8142916b603f3537ec0, type: 3}
     position: {x: 0, y: 0.1, z: -11}
     rotation: {x: 0, y: 0, z: 0, w: 0}
   - gameObject: {fileID: 7063186919127399241, guid: 2c50f632caf8da749bead92e0c18bb32, type: 3}

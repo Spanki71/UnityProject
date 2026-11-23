@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 23db8b35ba25ecb4ab5fb452431ee6b3
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 199781
+  packageName: LOWPOLY - Universal Character (Modular)
+  packageVersion: 2.0
+  assetPath: Assets/AA_UniversalCharacter/Showroom/ShowroomStudio.cginc
+  uploadId: 1046162

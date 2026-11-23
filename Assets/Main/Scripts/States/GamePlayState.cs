@@ -122,7 +122,7 @@ namespace Main.Scripts.States
                     {
                         m_target = temp;
                         m_targetBrain = m_target.GetComponentInChildren<TargetBrain>();
-                        m_targetBrain.onGetDamage += OnSetGamePlayUIInfoHandler;
+                        m_targetBrain.onGetDamage += OnTargetDamageHandler;
                     }
                 }
                 catch
@@ -227,7 +227,7 @@ namespace Main.Scripts.States
             m_pauseBrain.onToMenu -= OnToMenuHandler;
             m_enemySpawner.onEnemyDieUpdateScore -= OnUpdateScoreHandler;
             m_enemySpawner.onWaveEndToUpdateScore -= OnUpdateOnWaveHandler;
-            m_targetBrain.onGetDamage -= OnSetGamePlayUIInfoHandler;
+            m_targetBrain.onGetDamage -= OnTargetDamageHandler;
             
             m_wavesLogic.playMode = false;
             m_wavesLogic.waveInfo = null;
@@ -254,6 +254,11 @@ namespace Main.Scripts.States
             m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
             m_director.stopped -= OnDirectorStoppedHandler;
             m_directorGo.SetActive(false);
+        }
+
+        private void OnTargetDamageHandler()
+        {
+            m_gameUIBrain.SetTargetHp(m_targetBrain.health);
         }
     }
 }
