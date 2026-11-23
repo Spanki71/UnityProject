@@ -6,7 +6,8 @@ namespace Main.Scripts.StonesAndSpawner
     public class StoneBrain : MonoBehaviour
     {
         public bool canSpawnStone = false;
-        
+
+        [SerializeField] private AudioClip m_bitSound; 
         [SerializeField] public StoneSpawner spawner;
     
         private Rigidbody rb;
@@ -55,6 +56,7 @@ namespace Main.Scripts.StonesAndSpawner
 
             if (!collision.gameObject.CompareTag("Weapone"))
             {
+                AudioSource.PlayClipAtPoint(m_bitSound, transform.position);
                 Invoke("GoPull", 10.0f);
             }
         }

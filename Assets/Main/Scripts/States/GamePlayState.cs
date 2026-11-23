@@ -66,7 +66,6 @@ namespace Main.Scripts.States
             
             SceneManager.sceneLoaded += OnSceneLoadedHandler;
             SceneManager.LoadScene("Main/MainScene");
-            m_score.SetStartTime(Time.time);
             m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
         }
 
@@ -113,7 +112,7 @@ namespace Main.Scripts.States
                     if (temp.CompareTag("EnemySpawner"))
                     {
                         m_enemySpawnerGo = temp;
-                        m_enemySpawner = temp.GetComponent<EnemySpawner>();
+                        m_enemySpawner = m_enemySpawnerGo.GetComponent<EnemySpawner>();
                         m_enemySpawner.SetWaveLogic(m_wavesLogic);
                         m_wavesLogic.SetEnemySpawner(m_enemySpawner);
                     }
@@ -130,11 +129,11 @@ namespace Main.Scripts.States
                 }
             }
             
-            m_enemySpawnerGo.GetComponent<EnemySpawner>().target = m_target;
-            m_target.GetComponentInChildren<TargetBrain>().onGameOver += OnGameOverHandler;
-            m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
+            m_enemySpawner.target = m_target;
             m_enemySpawner.onEnemyDieUpdateScore += OnUpdateScoreHandler;
             m_enemySpawner.onWaveEndToUpdateScore += OnUpdateOnWaveHandler;
+            m_target.GetComponentInChildren<TargetBrain>().onGameOver += OnGameOverHandler;
+            m_gameUIBrain.SetHitEnemyCount(m_score.GetEnemyCountScore());
 
             m_directorGo = Object.Instantiate(m_directorPrefab);
             m_director = m_directorGo.GetComponent<PlayableDirector>();
@@ -165,8 +164,8 @@ namespace Main.Scripts.States
 
         private void OnResumeHandler()
         {
-            m_playerController.SetInputEnabled(true);
             m_enemySpawnerGo.SetActive(true);
+            m_playerController.SetInputEnabled(true);
             m_gamePlayUI.SetActive(true);
             
             foreach (var spawner in m_spawners)
@@ -180,10 +179,10 @@ namespace Main.Scripts.States
 
         private void OnRestartHandler()
         {
-            ResetLevel();
             Time.timeScale = 1;
             m_playerController.SetInputEnabled(false);
             m_pauseMenu.SetActive(false);
+            ResetLevel();
             m_stateMachine.ChangeState<GamePlayState>();
         }
 
@@ -213,11 +212,6 @@ namespace Main.Scripts.States
             m_score.UpdateWave(m_gameUIBrain);
         }
 
-        private void OnSetGamePlayUIInfoHandler()
-        {
-            m_gameUIBrain.SetTargetHp(m_targetBrain.health);
-        }
-
         private void ResetLevel()
         {
             m_playerController.onDeath -= OnGameOverHandler;
@@ -225,9 +219,6 @@ namespace Main.Scripts.States
             m_pauseBrain.onResume -= OnResumeHandler;
             m_pauseBrain.onRestart -= OnRestartHandler;
             m_pauseBrain.onToMenu -= OnToMenuHandler;
-            m_enemySpawner.onEnemyDieUpdateScore -= OnUpdateScoreHandler;
-            m_enemySpawner.onWaveEndToUpdateScore -= OnUpdateOnWaveHandler;
-            m_targetBrain.onGetDamage -= OnTargetDamageHandler;
             
             m_wavesLogic.playMode = false;
             m_wavesLogic.waveInfo = null;
@@ -237,14 +228,11 @@ namespace Main.Scripts.States
             m_enemySpawnerGo = null;
             m_enemySpawner = null;
             
-            m_targetBrain.Reset();
             m_target = null;
             m_targetBrain = null;
             m_score.Reset();
             m_playerController.SetInputEnabled(false);
-
-            m_targetBrain.health = m_targetBrain.GetMaxHealth();
-            m_gameUIBrain.SetTargetHp(m_targetBrain.health);
+            m_gamePlayUI.SetActive(false);
         }
 
         private void OnDirectorStoppedHandler(PlayableDirector director)
@@ -254,6 +242,7 @@ namespace Main.Scripts.States
             m_gameUIBrain.SetMaxHp(m_targetBrain.GetMaxHealth());
             m_director.stopped -= OnDirectorStoppedHandler;
             m_directorGo.SetActive(false);
+            m_score.SetStartTime(Time.time);
         }
 
         private void OnTargetDamageHandler()

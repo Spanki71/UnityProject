@@ -3609,6 +3609,7 @@ GameObject:
   - component: {fileID: 4690105709864761462}
   - component: {fileID: 7378635417376287874}
   - component: {fileID: 965332329437370532}
+  - component: {fileID: 8370968974481553466}
   m_Layer: 0
   m_Name: M_AA_002
   m_TagString: Player
@@ -3733,6 +3734,14 @@ MonoBehaviour:
   cam: {fileID: 1583767539869431441}
   baseSpeed: 15
   cameraPivot: {fileID: 3106718891203819756}
+--- !u!81 &8370968974481553466
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429419887474910}
+  m_Enabled: 1
 --- !u!1 &1444850853118964
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 using Main.Scripts.Enemy;
 using Main.Scripts.Interfaces;
 using UnityEngine;
-using UnityEngine.Playables;
 
 namespace Main.Scripts.States
 {

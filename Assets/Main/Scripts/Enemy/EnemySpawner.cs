@@ -36,7 +36,7 @@ namespace Main.Scripts.Enemy
                 actionOnRelease: OnRelease,
                 actionOnDestroy: (obj) => Destroy(obj),
                 collectionCheck: true,
-                defaultCapacity: 20,
+                defaultCapacity: 0,
                 maxSize: 50
             );
         }
@@ -103,7 +103,6 @@ namespace Main.Scripts.Enemy
         private GameObject Spawn()
         {
             var obj = Instantiate(m_prefabs[Random.Range(0, m_prefabs.Count)]);
-            obj.GetComponent<EnemyBrain>().SetPull(m_pool);
             obj.GetComponent<EnemyBrain>().spawner = this;
             return obj;
         }
@@ -111,6 +110,7 @@ namespace Main.Scripts.Enemy
         private void OnGet(GameObject obj)
         {
             obj.SetActive(true);
+            obj.GetComponent<EnemyBrain>().SetPull(m_pool);
             int pos = Random.Range(0, m_spawnPoints.Count);
             EnemyBrain brain = obj.GetComponent<EnemyBrain>();
             brain.onEnemyDie += OnEnemyStoneDieHandler;

@@ -147,5 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b79ebad62724ae4382f749b4cc9ce3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoneBrain
-  spawner: {fileID: 0}
   canSpawnStone: 0
+  m_bitSound: {fileID: 8300000, guid: d0746753bee15da43b3f4e019490f2ef, type: 3}
+  spawner: {fileID: 0}

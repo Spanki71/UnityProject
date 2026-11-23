@@ -1448,7 +1448,7 @@ MonoBehaviour:
   spawner: {fileID: 0}
   m_animator: {fileID: 127867265787259768}
   m_rb: {fileID: 9079941179760928859}
-  m_speed: 2
+  m_speed: 4
 --- !u!1 &6906493944559020957
 GameObject:
   m_ObjectHideFlags: 0

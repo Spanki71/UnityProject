@@ -9,8 +9,8 @@ namespace Main.Scripts
     {
         public event Action onLeave;
         
-        [SerializeField]
-        private TMP_Text m_scoreText;
+        [SerializeField] private TMP_Text m_scoreText;
+        [SerializeField] AudioClip m_gameOverSound;
         private StateMachine m_stateMachine;
 
         public void OnButtonClicked()
@@ -21,6 +21,11 @@ namespace Main.Scripts
         public void SetScoreOnUI(Score score)
         {
             m_scoreText.text = score.GetScoreString();
+        }
+
+        public void PlayGameOverSound()
+        {
+            AudioSource.PlayClipAtPoint(m_gameOverSound, transform.position);
         }
     }
 }

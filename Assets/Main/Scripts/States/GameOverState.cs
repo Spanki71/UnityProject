@@ -6,8 +6,7 @@ namespace Main.Scripts.States
     public class GameOverState : IGameState
     {
         StateMachine m_stateMachine;
-
-        private Canvas m_gameOverCanvas;
+        
         private GameOverLogic m_gameOverLogic;
         private GameObject m_canvas;
         private Score m_score;
@@ -22,6 +21,7 @@ namespace Main.Scripts.States
 
         public void OnEnter()
         {
+            m_gameOverLogic.PlayGameOverSound();
             m_canvas.SetActive(true);
             m_gameOverLogic.onLeave += OnLeaveHandler;
             m_gameOverLogic.SetScoreOnUI(m_score);
